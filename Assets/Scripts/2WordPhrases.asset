@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b285206d48eb549b899e02bc509217, type: 3}
+  m_Name: 2WordPhrases
+  m_EditorClassIdentifier: Assembly-CSharp::WordBank
+  rawWordInput: air balloon, hot tea, red apple, blue sky, big dog, fast car, cold
+    ice, green leaf, dark night, high mountain, deep ocean, bright star, soft pillow,
+    fresh water, cool breeze, clear glass, old tree, gold coin, silver ring, sweet
+    fruit, wild tiger, brave lion, calm lake, sharp knife, heavy rain, warm sun,
+    white snow, small cat, dry desert, thick forest, brown bear, fast runner, loud
+    music, short trip, tall tower, quiet room, young boy, happy day, lucky guess,
+    early morning, late night, grand piano, royal crown, magic wand, iron gate, wooden
+    door, plastic cup, paper plate, stone wall, brick house, ocean wave, river bank,
+    sea shell, sand dune, storm cloud, blue whale, giant squid, black panther, bald
+    eagle, wise owl, brown owl, flying bird, red rose, green grass, yellow sun, full
+    moon, star light, night sky, space ship, space station, hot coffee, sweet cake,
+    sour lemon, ripe banana, salty snack, warm bread, cold milk, ice cream, hard
+    rock, soft sand, mud puddle, rain drop, snow flake, sea shore, pine tree, oak
+    tree, wild flower, green garden, farm yard, barn door, hay stack, sheep dog,
+    pack mule, farm horse, farm cow, pet cat, red fox, gray wolf, brown deer, wild
+    boar
+  _words:
+  - air balloon
+  - hot tea
+  - red apple
+  - blue sky
+  - big dog
+  - fast car
+  - cold ice
+  - green leaf
+  - dark night
+  - high mountain
+  - deep ocean
+  - bright star
+  - soft pillow
+  - fresh water
+  - cool breeze
+  - clear glass
+  - old tree
+  - gold coin
+  - silver ring
+  - sweet fruit
+  - wild tiger
+  - brave lion
+  - calm lake
+  - sharp knife
+  - heavy rain
+  - warm sun
+  - white snow
+  - small cat
+  - dry desert
+  - thick forest
+  - brown bear
+  - fast runner
+  - loud music
+  - short trip
+  - tall tower
+  - quiet room
+  - young boy
+  - happy day
+  - lucky guess
+  - early morning
+  - late night
+  - grand piano
+  - royal crown
+  - magic wand
+  - iron gate
+  - wooden door
+  - plastic cup
+  - paper plate
+  - stone wall
+  - brick house
+  - ocean wave
+  - river bank
+  - sea shell
+  - sand dune
+  - storm cloud
+  - blue whale
+  - giant squid
+  - black panther
+  - bald eagle
+  - wise owl
+  - brown owl
+  - flying bird
+  - red rose
+  - green grass
+  - yellow sun
+  - full moon
+  - star light
+  - night sky
+  - space ship
+  - space station
+  - hot coffee
+  - sweet cake
+  - sour lemon
+  - ripe banana
+  - salty snack
+  - warm bread
+  - cold milk
+  - ice cream
+  - hard rock
+  - soft sand
+  - mud puddle
+  - rain drop
+  - snow flake
+  - sea shore
+  - pine tree
+  - oak tree
+  - wild flower
+  - green garden
+  - farm yard
+  - barn door
+  - hay stack
+  - sheep dog
+  - pack mule
+  - farm horse
+  - farm cow
+  - pet cat
+  - red fox
+  - gray wolf
+  - brown deer
+  - wild boar

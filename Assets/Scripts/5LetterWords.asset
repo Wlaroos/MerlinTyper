@@ -1,0 +1,126 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b285206d48eb549b899e02bc509217, type: 3}
+  m_Name: 5LetterWords
+  m_EditorClassIdentifier: Assembly-CSharp::WordBank
+  rawWordInput: actor, angel, apple, apron, arrow, beach, bench, berry, blade, blank,
+    bloom, board, bread, brick, brush, cabin, cable, camel, candy, chair, chalk,
+    charm, chest, clock, cloud, coast, coral, crown, dance, drama, dream, eagle,
+    Earth, flame, flask, flash, floor, flute, forest, frost, ghost, glass, globe,
+    grain, grape, grass, green, heart, heavy, house, index, juice, knife, lemon,
+    light, magic, mango, metal, model, money, month, music, night, ocean, onion,
+    paper, party, pearl, piano, plant, plate, plaza, prize, queen, radar, radio,
+    river, robot, scale, shadow, shark, sheep, Shell, space, spark, spear, speed,
+    Spice, Spoon, Stage, Stamp, Steam, Steel, Stone, Storm, Sugar, Table, Tiger,
+    Train, Water, Youth
+  _words:
+  - actor
+  - angel
+  - apple
+  - apron
+  - arrow
+  - beach
+  - bench
+  - berry
+  - blade
+  - blank
+  - bloom
+  - board
+  - bread
+  - brick
+  - brush
+  - cabin
+  - cable
+  - camel
+  - candy
+  - chair
+  - chalk
+  - charm
+  - chest
+  - clock
+  - cloud
+  - coast
+  - coral
+  - crown
+  - dance
+  - drama
+  - dream
+  - eagle
+  - earth
+  - flame
+  - flask
+  - flash
+  - floor
+  - flute
+  - forest
+  - frost
+  - ghost
+  - glass
+  - globe
+  - grain
+  - grape
+  - grass
+  - green
+  - heart
+  - heavy
+  - house
+  - index
+  - juice
+  - knife
+  - lemon
+  - light
+  - magic
+  - mango
+  - metal
+  - model
+  - money
+  - month
+  - music
+  - night
+  - ocean
+  - onion
+  - paper
+  - party
+  - pearl
+  - piano
+  - plant
+  - plate
+  - plaza
+  - prize
+  - queen
+  - radar
+  - radio
+  - river
+  - robot
+  - scale
+  - shadow
+  - shark
+  - sheep
+  - shell
+  - space
+  - spark
+  - spear
+  - speed
+  - spice
+  - spoon
+  - stage
+  - stamp
+  - steam
+  - steel
+  - stone
+  - storm
+  - sugar
+  - table
+  - tiger
+  - train
+  - water
+  - youth

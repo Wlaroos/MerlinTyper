@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 [Serializable]
 public class Word
@@ -10,6 +11,11 @@ public class Word
     {
         Text = text;
         CurrentIndex = 0;
+    }
+
+    public char GetFirstChar()
+    {
+        return char.ToLower(Text[0]);
     }
 
     public char GetNextChar()
@@ -26,12 +32,22 @@ public class Word
     {
         if (CurrentIndex > 0)
             return Text[CurrentIndex - 1];
-        return '\0'; // Return null character if at the start
+        return '\0';
+    }
+
+    public bool IsNextCharSpace()
+    {
+        return !IsCompleted() && GetNextChar() == ' ';
+    }
+
+    public bool IsCurrentCharSpace()
+    {
+        return !IsCompleted() && GetCurrentChar() == ' ';
     }
 
     public bool TypeLetter(char letter)
     {
-        if (letter == GetNextChar())
+        if (char.ToLower(letter) == char.ToLower(GetNextChar()))
         {
             CurrentIndex++;
             return true;
@@ -54,11 +70,50 @@ public class Word
         return CurrentIndex >= Text.Length;
     }
 
-    // Green for typed, white for remaining
-    public string GetFormattedText()
+    public string GetFormattedText(bool showError = false)
     {
-        string typed = Text.Substring(0, CurrentIndex);
-        string untyped = Text.Substring(CurrentIndex);
-        return $"<color=#00FF00>{typed}</color>{untyped}";
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < Text.Length; i++)
+        {
+            char rawChar = Text[i];
+            bool isSpace = rawChar == ' ';
+            string displayChar = isSpace ? " " : rawChar.ToString();
+
+            // <mspace=0.75em> ensures identical horizontal slot width
+            sb.Append("<mspace=0.75em>");
+
+            // Typed (Green letter over Green underline)
+            if (i < CurrentIndex)
+            {
+                sb.Append($"<color=#00FF00>_<space=-0.75em><voffset=0.2em>{displayChar}</voffset></color>");
+            }
+            // Current Target (Red if error, Yellow if normal)
+            else if (i == CurrentIndex)
+            {
+                if (showError)
+                {
+                    // Red letter and Red underline on error
+                    sb.Append($"<color=#FF0000><b>_<space=-0.75em><voffset=0.2em>{displayChar}</voffset></b></color>");
+                }
+                else
+                {
+                    // Yellow letter and Yellow underline
+                    sb.Append($"<color=#FFD700><b>_<space=-0.75em><voffset=0.2em>{displayChar}</voffset></b></color>");
+                }
+            }
+            // Remaining (Grey letter over Grey underline)
+            else
+            {
+                sb.Append($"<color=#CCCCCC>_<space=-0.75em><voffset=0.2em>{displayChar}</voffset></color>");
+            }
+
+            sb.Append("</mspace>");
+
+            // Small gap between character slots
+            sb.Append("<mspace=0.1em> </mspace>");
+        }
+
+        return sb.ToString();
     }
 }
