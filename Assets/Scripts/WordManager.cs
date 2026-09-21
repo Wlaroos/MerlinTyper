@@ -180,10 +180,10 @@ public class WordManager : MonoBehaviour
                     }
                 }
 
-                // Increment misstrokes when typing while no word is locked and no starting letter matches
+                // Don't count typing while no word is locked and no starting letter matches
                 if (!matchedWord)
                 {
-                    RecordKeypress(false);
+                    // Do nothing
                 }
             }
         }

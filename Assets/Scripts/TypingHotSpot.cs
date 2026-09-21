@@ -14,6 +14,8 @@ public class TypingHotSpot : MonoBehaviour
     [SerializeField] private float _refillTimerDuration = 5f;
 
     [Header("Events")]
+    // Maybe use UnityEvent<Word> to pass the completed word as a parameter if needed
+    // Or use a c# event 
     public UnityEvent OnWordCompletedEvent;
 
     public Word CurrentWord { get; private set; }
