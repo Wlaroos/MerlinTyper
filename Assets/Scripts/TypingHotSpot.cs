@@ -10,11 +10,15 @@ public class TypingHotSpot : MonoBehaviour
     
     [Header("Auto-Refill Settings")]
     [SerializeField] private bool _autoRefillOnComplete = true;
+    [SerializeField] private bool _autoRefillOnTimer = true;
+    [SerializeField] private float _refillTimerDuration = 5f;
 
     [Header("Events")]
     public UnityEvent OnWordCompletedEvent;
 
     public Word CurrentWord { get; private set; }
+
+    private Coroutine _retryCoroutine;
 
     private void OnEnable()
     {
@@ -29,12 +33,13 @@ public class TypingHotSpot : MonoBehaviour
     {
         WordManager.OnWordCompleted -= OnWordCompleted;
 
-        // Clean up word reservation in WordManager if this hotspot is disabled/destroyed
-        if (CurrentWord != null && WordManager.Instance != null)
+        if (_retryCoroutine != null)
         {
-            WordManager.Instance.ReleaseWord(CurrentWord);
-            CurrentWord = null;
+            StopCoroutine(_retryCoroutine);
+            _retryCoroutine = null;
         }
+
+        CleanupCurrentWord();
     }
 
     private void Start()
@@ -49,6 +54,12 @@ public class TypingHotSpot : MonoBehaviour
     {
         if (WordManager.Instance == null) return;
 
+        if (_retryCoroutine != null)
+        {
+            StopCoroutine(_retryCoroutine);
+            _retryCoroutine = null;
+        }
+
         Word newWord = WordManager.Instance.RequestWordForHotSpot(_hotSpotWordBank);
         
         if (newWord != null)
@@ -59,16 +70,18 @@ public class TypingHotSpot : MonoBehaviour
                 _displayUI.Setup(CurrentWord, OnDisplayRecycled);
             }
         }
-        else
+        else if (_autoRefillOnComplete)
         {
-            // If all starting letters were taken, retry next frame
-            StartCoroutine(RetryAssignWordNextFrame());
+            // Retry next frame if no starting letter was available
+            _retryCoroutine = StartCoroutine(RetryAssignWordNextFrame());
         }
     }
 
     private IEnumerator RetryAssignWordNextFrame()
     {
         yield return null;
+        _retryCoroutine = null;
+        
         if (CurrentWord == null)
         {
             AssignNewWord();
@@ -86,7 +99,33 @@ public class TypingHotSpot : MonoBehaviour
             {
                 AssignNewWord();
             }
+            else if (_autoRefillOnTimer)
+            {
+                _displayUI?.ClearDisplay();
+                // Start refill timer UI
+                StartCoroutine(DelayedRefill());
+            }
+            else
+            {
+                _displayUI?.ClearDisplay();
+            }
         }
+    }
+
+    private void CleanupCurrentWord()
+    {
+        if (CurrentWord != null && WordManager.Instance != null)
+        {
+            _displayUI?.ClearDisplay();
+            WordManager.Instance.ReleaseWord(CurrentWord);
+            CurrentWord = null;
+        }
+    }
+
+    private IEnumerator DelayedRefill()
+    {
+        yield return new WaitForSeconds(_refillTimerDuration);
+        AssignNewWord();
     }
 
     private void OnDisplayRecycled(TypingDisplayUI display)

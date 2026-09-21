@@ -47,7 +47,7 @@ public class Word
 
     public bool TypeLetter(char letter)
     {
-        if (char.ToLower(letter) == char.ToLower(GetNextChar()))
+        if (letter == GetNextChar())
         {
             CurrentIndex++;
             return true;

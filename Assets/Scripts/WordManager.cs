@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class WordManager : MonoBehaviour
 {
@@ -25,6 +26,22 @@ public class WordManager : MonoBehaviour
     public static event Action<Word, bool> OnLetterBackspace;
     public static event Action<Word> OnWordCompleted;
 
+    // Stats
+    [SerializeField] private TextMeshProUGUI _statsDisplay;
+    private int _correctKeysTyped = 0;
+    private int _wrongKeysTyped = 0;
+    private int _totalKeysTyped = 0;
+    private int _totalWordsCompleted = 0;
+    private float _totalTypingTime = 0f;
+    private float _averageTypingSpeed = 0f; // Words Per Minute (WPM)
+
+    public int CorrectKeysTyped => _correctKeysTyped;
+    public int WrongKeysTyped => _wrongKeysTyped;
+    public int TotalKeysTyped => _totalKeysTyped;
+    public int TotalWordsCompleted => _totalWordsCompleted;
+    public float TotalTypingTime => _totalTypingTime;
+    public float AverageTypingSpeed => _averageTypingSpeed;
+
     private void Awake()
     {
         if (Instance == null)
@@ -35,6 +52,24 @@ public class WordManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Update()
+    {
+        // Track typing time whenever words are active on screen
+        if (ActiveWords.Count > 0)
+        {
+            _totalTypingTime += Time.deltaTime;
+            RecalculateWPM();
+        }
+
+        ProcessInput();
+
+        _statsDisplay.text = //$"WPM: {_averageTypingSpeed:F1}\n" +
+                             $"Correct Keys: {_correctKeysTyped}\n" +
+                             $"Wrong Keys: {_wrongKeysTyped}\n" +
+                             $"Total Keys: {_totalKeysTyped}\n" +
+                             $"Words Completed: {_totalWordsCompleted}";
     }
 
     public Word RequestWordForHotSpot(WordBank customBank = null)
@@ -75,11 +110,6 @@ public class WordManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        ProcessInput();
-    }
-
     private void ProcessInput()
     {
         string input = Input.inputString;
@@ -112,7 +142,10 @@ public class WordManager : MonoBehaviour
             {
                 bool isCorrect = TargetWord.TypeLetter(c);
                 
-                // Broadcast letter typed event (isCorrect will be false on wrong keypress)
+                // Track keypress stats
+                RecordKeypress(isCorrect);
+
+                // Broadcast letter typed event
                 OnLetterTyped?.Invoke(TargetWord, isCorrect);
 
                 if (isCorrect && TargetWord.IsCompleted())
@@ -123,12 +156,18 @@ public class WordManager : MonoBehaviour
             // Search Active Words
             else
             {
+                bool matchedWord = false;
+
                 foreach (Word word in ActiveWords)
                 {
                     if (word.GetNextChar().ToString().Equals(c.ToString(), StringComparison.OrdinalIgnoreCase))
                     {
+                        matchedWord = true;
                         TargetWord = word;
                         TargetWord.TypeLetter(c);
+
+                        // Track keypress stats
+                        RecordKeypress(true);
 
                         OnWordTargeted?.Invoke(TargetWord);
                         OnLetterTyped?.Invoke(TargetWord, true);
@@ -140,13 +179,47 @@ public class WordManager : MonoBehaviour
                         break;
                     }
                 }
+
+                // Increment misstrokes when typing while no word is locked and no starting letter matches
+                if (!matchedWord)
+                {
+                    RecordKeypress(false);
+                }
             }
         }
     }
 
+    private void RecordKeypress(bool isCorrect)
+    {
+        _totalKeysTyped++;
+
+        if (isCorrect)
+        {
+            _correctKeysTyped++;
+        }
+        else
+        {
+            _wrongKeysTyped++;
+        }
+
+        RecalculateWPM();
+    }
+
     private void CompleteWord(Word word)
     {
-        OnWordCompleted?.Invoke(word);
+        _totalWordsCompleted++;
+        RecalculateWPM();
+
         ReleaseWord(word);
+        OnWordCompleted?.Invoke(word);
+    }
+
+    private void RecalculateWPM()
+    {
+        if (_totalTypingTime <= 0f) return;
+
+        // Standard typing speed calculation (1 word = 5 keypresses)
+        float minutes = _totalTypingTime / 60f;
+        _averageTypingSpeed = (_correctKeysTyped / 5f) / minutes;
     }
 }

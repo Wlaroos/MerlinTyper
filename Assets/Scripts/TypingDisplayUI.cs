@@ -37,6 +37,24 @@ public class TypingDisplayUI : MonoBehaviour
         UpdateDisplay(_assignedWord, false);
     }
 
+    public void ClearDisplay()
+    {
+        _assignedWord = null;
+        _shakingCharIndex = -1;
+        _onRecycle = null;
+
+        if (_shakeCoroutine != null)
+        {
+            StopCoroutine(_shakeCoroutine);
+            _shakeCoroutine = null;
+        }
+
+        if (_wordDisplay != null)
+        {
+            _wordDisplay.text = string.Empty;
+        }
+    }
+
     private void OnEnable()
     {
         WordManager.OnLetterTyped += OnLetterTyped;
@@ -92,8 +110,8 @@ public class TypingDisplayUI : MonoBehaviour
         _wordDisplay.UpdateVertexData(TMP_VertexDataUpdateFlags.Vertices);
     }
 
-    /// Matches rawTargetIndex to its TMP character quad.
-    /// If the raw target character is a space, targets its underscore.
+    // Matches rawTargetIndex to its TMP character quad.
+    // If the raw target character is a space, targets its underscore.
     private int GetTMPCharacterIndexForTargetLetter(int rawTargetIndex, TMP_TextInfo textInfo)
     {
         if (_assignedWord == null || string.IsNullOrEmpty(_assignedWord.Text)) return -1;
@@ -208,6 +226,7 @@ public class TypingDisplayUI : MonoBehaviour
 
     private void OnWordCompleted(Word word)
     {
+        // Only clear if the completed word is still the currently assigned word
         if (_assignedWord == word)
         {
             _assignedWord = null;
