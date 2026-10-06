@@ -11,6 +11,11 @@ public class WordManager : MonoBehaviour
     [SerializeField] private WordBank[] _wordBanks;
     [SerializeField] private float _shakeDuration = 0.2f;
     [SerializeField] private float _shakeMagnitude = 3f;
+
+    [Header("Input Settings")]
+    [Tooltip("If false, holding down a physical key will only register a single press until released.")]
+    [SerializeField] private bool _allowKeyHoldRepeat = false;
+
     public float ShakeDuration => _shakeDuration;
     public float ShakeMagnitude => _shakeMagnitude;
     public List<Word> ActiveWords { get; private set; } = new List<Word>();
@@ -18,13 +23,42 @@ public class WordManager : MonoBehaviour
 
     private readonly HashSet<char> _usedStartingLetters = new HashSet<char>();
 
+    // Tracks physical key held state to prevent auto-repeat
+    private readonly HashSet<KeyCode> _heldKeys = new HashSet<KeyCode>();
+
+    // Lookup table for zero-allocation keycode resolution
+    private static readonly KeyCode[] CharToKeyCodeMap = new KeyCode[128];
+
+    static WordManager()
+    {
+        for (char c = 'a'; c <= 'z'; c++)
+        {
+            if (Enum.TryParse(c.ToString(), true, out KeyCode code))
+            {
+                CharToKeyCodeMap[c] = code;
+                CharToKeyCodeMap[char.ToUpper(c)] = code;
+            }
+        }
+        CharToKeyCodeMap[' '] = KeyCode.Space;
+        CharToKeyCodeMap['\b'] = KeyCode.Backspace;
+    }
+
+    public struct KeyPressInfo
+    {
+        public char Character;
+        public KeyCode KeyCode;
+        public bool IsCorrect;
+        public bool IsBackspace;
+    }
+
     // Events
-    public static event Action<Word> OnWordAdded;
-    public static event Action<Word> OnWordTargeted;
-    public static event Action<Word> OnWordUntargeted;
-    public static event Action<Word, bool> OnLetterTyped;
-    public static event Action<Word, bool> OnLetterBackspace;
-    public static event Action<Word> OnWordCompleted;
+    public static event Action<Word> WordAddedEvent;
+    public static event Action<Word> WordTargetedEvent;
+    public static event Action<Word> WordUntargetedEvent;
+    public static event Action<Word, char, bool> LetterTypedEvent;
+    public static event Action<Word, bool> LetterBackspaceEvent;
+    public static event Action<Word> WordCompletedEvent;
+    public static event Action<KeyPressInfo> KeyPressedEvent;
 
     // Stats
     [SerializeField] private TextMeshProUGUI _statsDisplay;
@@ -33,7 +67,7 @@ public class WordManager : MonoBehaviour
     private int _totalKeysTyped = 0;
     private int _totalWordsCompleted = 0;
     private float _totalTypingTime = 0f;
-    private float _averageTypingSpeed = 0f; // Words Per Minute (WPM)
+    private float _averageTypingSpeed = 0f;
 
     public int CorrectKeysTyped => _correctKeysTyped;
     public int WrongKeysTyped => _wrongKeysTyped;
@@ -56,7 +90,12 @@ public class WordManager : MonoBehaviour
 
     private void Update()
     {
-        // Track typing time whenever words are active on screen
+        // Release tracking for held keys
+        if (!_allowKeyHoldRepeat && _heldKeys.Count > 0)
+        {
+            _heldKeys.RemoveWhere(code => Input.GetKeyUp(code));
+        }
+
         if (ActiveWords.Count > 0)
         {
             _totalTypingTime += Time.deltaTime;
@@ -65,11 +104,13 @@ public class WordManager : MonoBehaviour
 
         ProcessInput();
 
-        _statsDisplay.text = //$"WPM: {_averageTypingSpeed:F1}\n" +
-                             $"Correct Keys: {_correctKeysTyped}\n" +
-                             $"Wrong Keys: {_wrongKeysTyped}\n" +
-                             $"Total Keys: {_totalKeysTyped}\n" +
-                             $"Words Completed: {_totalWordsCompleted}";
+        if (_statsDisplay != null)
+        {
+            _statsDisplay.text = $"Correct Keys: {_correctKeysTyped}\n" +
+                                 $"Wrong Keys: {_wrongKeysTyped}\n" +
+                                 $"Total Keys: {_totalKeysTyped}\n" +
+                                 $"Words Completed: {_totalWordsCompleted}";
+        }
     }
 
     public Word RequestWordForHotSpot(WordBank customBank = null)
@@ -88,7 +129,7 @@ public class WordManager : MonoBehaviour
         ActiveWords.Add(newWord);
         _usedStartingLetters.Add(newWord.GetFirstChar());
 
-        OnWordAdded?.Invoke(newWord);
+        WordAddedEvent?.Invoke(newWord);
         return newWord;
     }
 
@@ -106,7 +147,7 @@ public class WordManager : MonoBehaviour
         if (TargetWord == word)
         {
             TargetWord = null;
-            OnWordUntargeted?.Invoke(word);
+            WordUntargetedEvent?.Invoke(word);
         }
     }
 
@@ -119,19 +160,41 @@ public class WordManager : MonoBehaviour
         {
             if (c == '\n' || c == '\r') continue;
 
+            KeyCode code = ConvertCharToKeyCode(c);
+
+            // Ignore input if repeat holds are disallowed and key is currently held down
+            if (!_allowKeyHoldRepeat && code != KeyCode.None && _heldKeys.Contains(code))
+            {
+                continue;
+            }
+
+            // Register keypress as active
+            if (code != KeyCode.None)
+            {
+                _heldKeys.Add(code);
+            }
+
             // Backspace handling
             if (c == '\b')
             {
+                KeyPressedEvent?.Invoke(new KeyPressInfo 
+                { 
+                    Character = c, 
+                    KeyCode = KeyCode.Backspace, 
+                    IsCorrect = true, 
+                    IsBackspace = true 
+                });
+
                 if (TargetWord != null && TargetWord.CurrentIndex > 0)
                 {
                     TargetWord.Backspace();
-                    OnLetterBackspace?.Invoke(TargetWord, true);
+                    LetterBackspaceEvent?.Invoke(TargetWord, true);
 
                     if (TargetWord.CurrentIndex == 0)
                     {
                         Word untargeted = TargetWord;
                         TargetWord = null;
-                        OnWordUntargeted?.Invoke(untargeted);
+                        WordUntargetedEvent?.Invoke(untargeted);
                     }
                 }
                 continue;
@@ -141,12 +204,17 @@ public class WordManager : MonoBehaviour
             if (TargetWord != null)
             {
                 bool isCorrect = TargetWord.TypeLetter(c);
-                
-                // Track keypress stats
                 RecordKeypress(isCorrect);
 
-                // Broadcast letter typed event
-                OnLetterTyped?.Invoke(TargetWord, isCorrect);
+                KeyPressedEvent?.Invoke(new KeyPressInfo 
+                { 
+                    Character = c, 
+                    KeyCode = code, 
+                    IsCorrect = isCorrect, 
+                    IsBackspace = false 
+                });
+
+                LetterTypedEvent?.Invoke(TargetWord, c, isCorrect);
 
                 if (isCorrect && TargetWord.IsCompleted())
                 {
@@ -166,11 +234,18 @@ public class WordManager : MonoBehaviour
                         TargetWord = word;
                         TargetWord.TypeLetter(c);
 
-                        // Track keypress stats
                         RecordKeypress(true);
 
-                        OnWordTargeted?.Invoke(TargetWord);
-                        OnLetterTyped?.Invoke(TargetWord, true);
+                        KeyPressedEvent?.Invoke(new KeyPressInfo 
+                        { 
+                            Character = c, 
+                            KeyCode = code, 
+                            IsCorrect = true, 
+                            IsBackspace = false 
+                        });
+
+                        WordTargetedEvent?.Invoke(TargetWord);
+                        LetterTypedEvent?.Invoke(TargetWord, c, true);
 
                         if (TargetWord.IsCompleted())
                         {
@@ -180,13 +255,29 @@ public class WordManager : MonoBehaviour
                     }
                 }
 
-                // Don't count typing while no word is locked and no starting letter matches
                 if (!matchedWord)
                 {
-                    // Do nothing
+                    RecordKeypress(false);
+
+                    KeyPressedEvent?.Invoke(new KeyPressInfo 
+                    { 
+                        Character = c, 
+                        KeyCode = code, 
+                        IsCorrect = false, 
+                        IsBackspace = false 
+                    });
                 }
             }
         }
+    }
+
+    public KeyCode ConvertCharToKeyCode(char c)
+    {
+        if (c < 128)
+        {
+            return CharToKeyCodeMap[c];
+        }
+        return KeyCode.None;
     }
 
     private void RecordKeypress(bool isCorrect)
@@ -211,14 +302,13 @@ public class WordManager : MonoBehaviour
         RecalculateWPM();
 
         ReleaseWord(word);
-        OnWordCompleted?.Invoke(word);
+        WordCompletedEvent?.Invoke(word);
     }
 
     private void RecalculateWPM()
     {
         if (_totalTypingTime <= 0f) return;
 
-        // Standard typing speed calculation (1 word = 5 keypresses)
         float minutes = _totalTypingTime / 60f;
         _averageTypingSpeed = (_correctKeysTyped / 5f) / minutes;
     }

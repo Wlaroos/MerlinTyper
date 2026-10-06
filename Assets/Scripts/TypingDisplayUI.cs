@@ -58,16 +58,16 @@ public class TypingDisplayUI : MonoBehaviour
 
     private void OnEnable()
     {
-        WordManager.OnLetterTyped += OnLetterTyped;
-        WordManager.OnLetterBackspace += OnLetterBackspace;
-        WordManager.OnWordCompleted += OnWordCompleted;
+        WordManager.LetterTypedEvent += OnLetterTyped;
+        WordManager.LetterBackspaceEvent += OnLetterBackspace;
+        WordManager.WordCompletedEvent += OnWordCompleted;
     }
 
     private void OnDisable()
     {
-        WordManager.OnLetterTyped -= OnLetterTyped;
-        WordManager.OnLetterBackspace -= OnLetterBackspace;
-        WordManager.OnWordCompleted -= OnWordCompleted;
+        WordManager.LetterTypedEvent -= OnLetterTyped;
+        WordManager.LetterBackspaceEvent -= OnLetterBackspace;
+        WordManager.WordCompletedEvent -= OnWordCompleted;
 
         if (_shakeCoroutine != null)
         {
@@ -221,7 +221,7 @@ public class TypingDisplayUI : MonoBehaviour
         return sb.ToString();
     }
 
-    private void OnLetterTyped(Word word, bool isCorrect)
+    private void OnLetterTyped(Word word, char c, bool isCorrect)
     {
         if (_assignedWord == word)
         {

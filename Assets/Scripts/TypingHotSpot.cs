@@ -24,7 +24,7 @@ public class TypingHotSpot : MonoBehaviour
 
     private void OnEnable()
     {
-        WordManager.OnWordCompleted += OnWordCompleted;
+        WordManager.WordCompletedEvent += OnWordCompleted;
         if (CurrentWord == null && WordManager.Instance != null)
         {
             AssignNewWord();
@@ -33,7 +33,7 @@ public class TypingHotSpot : MonoBehaviour
 
     private void OnDisable()
     {
-        WordManager.OnWordCompleted -= OnWordCompleted;
+        WordManager.WordCompletedEvent -= OnWordCompleted;
 
         if (_retryCoroutine != null)
         {
