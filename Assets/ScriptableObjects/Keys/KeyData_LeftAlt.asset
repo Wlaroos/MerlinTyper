@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 020089fa7d2a2c04ab352940e32dcb17, type: 3}
+  m_Name: KeyData_LeftAlt
+  m_EditorClassIdentifier: Assembly-CSharp::KeyDataSO
+  keyId: Key_LeftAlt
+  keyCode: 308
+  defaultSprite: {fileID: 21300000, guid: 60efbeeb265a7434581bd00ea9c8a898, type: 3}
+  hoveredSprite: {fileID: 21300000, guid: fb15ec5cbe105ae41b7c1148948e779b, type: 3}
+  pressedSprite: {fileID: 21300000, guid: b3abfe7326cd87d459449b18c522efcd, type: 3}

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 020089fa7d2a2c04ab352940e32dcb17, type: 3}
+  m_Name: KeyData_X
+  m_EditorClassIdentifier: Assembly-CSharp::KeyDataSO
+  keyId: Key_X
+  keyCode: 120
+  defaultSprite: {fileID: 21300000, guid: 39aa8e31e25ef944b8b31dc44c5a031b, type: 3}
+  hoveredSprite: {fileID: 21300000, guid: 92d4d89466136844785d12045ceac20b, type: 3}
+  pressedSprite: {fileID: 21300000, guid: 7622a9f257ee4b54f8ef1c9dfaeab06b, type: 3}
