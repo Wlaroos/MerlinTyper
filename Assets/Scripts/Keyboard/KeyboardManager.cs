@@ -23,6 +23,9 @@ public class KeyboardManager : MonoBehaviour
         {
             // Spawn a container for each row (with HorizontalLayoutGroup attached)
             GameObject rowGO = Instantiate(_rowPrefab, _rowParent);
+            RectTransform rowTransform = rowGO.GetComponent<RectTransform>();
+
+            rowTransform.sizeDelta = new Vector2(rowTransform.sizeDelta.x, 13 * _keyScale); // Set height based on prefab height
 
             foreach (var keyData in rowDef.keys)
             {
