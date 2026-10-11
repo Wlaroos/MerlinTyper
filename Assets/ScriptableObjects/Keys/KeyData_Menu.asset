@@ -15,5 +15,6 @@ MonoBehaviour:
   keyId: Key_Menu
   keyCode: 319
   defaultSprite: {fileID: 21300000, guid: dd014ce56cd181d4dafda9e0de99b6eb, type: 3}
+  darkSprite: {fileID: 6143231391557463460, guid: cde3807feb4122e438af3e113b3fa7ec, type: 3}
   hoveredSprite: {fileID: 21300000, guid: e03d11cb1eb97434d814046d8808d1ac, type: 3}
   pressedSprite: {fileID: 21300000, guid: bb5ac1a7be28c494092f7a2c7368dd99, type: 3}

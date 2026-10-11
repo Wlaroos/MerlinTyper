@@ -15,5 +15,6 @@ MonoBehaviour:
   keyId: Key_RightShift
   keyCode: 303
   defaultSprite: {fileID: 21300000, guid: 8aaf240ab1e2a444a8e0aff1474657fa, type: 3}
+  darkSprite: {fileID: 6890166390518936556, guid: 10387f6ed7f56284e9575f43cf42e50b, type: 3}
   hoveredSprite: {fileID: 21300000, guid: 0bc3bd667493397479d4a220fc098f2d, type: 3}
   pressedSprite: {fileID: 21300000, guid: 1270d37cd9c85ae46bdc1e309cfd1ded, type: 3}

@@ -17,7 +17,7 @@ public class KeyView : MonoBehaviour
         rect.sizeDelta = new Vector2(rect.sizeDelta.x, rect.sizeDelta.y);
     }
 
-    public enum KeyState { Default, Hovered, Pressed }
+    public enum KeyState { Default, Hovered, Pressed, Dark }
 
     public void SetState(KeyState state)
     {
@@ -31,6 +31,9 @@ public class KeyView : MonoBehaviour
                 break;
             case KeyState.Pressed:
                 _keyImage.sprite = _keyData.pressedSprite;
+                break;
+            case KeyState.Dark:
+                _keyImage.sprite = _keyData.darkSprite;
                 break;
         }
     }

@@ -15,5 +15,6 @@ MonoBehaviour:
   keyId: Key_Backspace
   keyCode: 8
   defaultSprite: {fileID: 21300000, guid: b35e206988e405a4884b1f8c08ca675d, type: 3}
+  darkSprite: {fileID: 5235729607786890278, guid: 2796ef02e047bf047a90dc0dc0f4583e, type: 3}
   hoveredSprite: {fileID: 21300000, guid: 8db4cb42915dd614d9dc72e4192c2ee3, type: 3}
   pressedSprite: {fileID: 21300000, guid: d4d18137fb2c3c043bd634b5ca0e285b, type: 3}

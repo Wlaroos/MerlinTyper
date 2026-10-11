@@ -15,5 +15,6 @@ MonoBehaviour:
   keyId: Key_RightBracket
   keyCode: 93
   defaultSprite: {fileID: 21300000, guid: ebbcb004c5a181048a686399f2ca694c, type: 3}
+  darkSprite: {fileID: 2552274734736914070, guid: 71a787211ded7fa40bc388fb040b6bef, type: 3}
   hoveredSprite: {fileID: 21300000, guid: 1ea0aa7ce01a0c548ae4160078c12c4a, type: 3}
   pressedSprite: {fileID: 21300000, guid: 4fcc369a025f59d46a4f4ec2c0916605, type: 3}

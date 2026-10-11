@@ -15,5 +15,6 @@ MonoBehaviour:
   keyId: Key_RightControl
   keyCode: 305
   defaultSprite: {fileID: 21300000, guid: 5c3e629b4705e924d836059741e26ec6, type: 3}
+  darkSprite: {fileID: -4213216690578670645, guid: a2b65189752851b42895685898306db2, type: 3}
   hoveredSprite: {fileID: 21300000, guid: 8d3ed2aedbda8904eaa4a7e0b625bd58, type: 3}
   pressedSprite: {fileID: 21300000, guid: 9fac41f0a271d9742bf7f9667853831c, type: 3}

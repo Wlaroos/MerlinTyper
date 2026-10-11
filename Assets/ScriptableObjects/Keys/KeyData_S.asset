@@ -15,5 +15,6 @@ MonoBehaviour:
   keyId: Key_S
   keyCode: 115
   defaultSprite: {fileID: 21300000, guid: 49329300dc2364e45bdca71dfb4f8da9, type: 3}
+  darkSprite: {fileID: -4573975657330059387, guid: 269ea950f78037245abea029d27f3fb9, type: 3}
   hoveredSprite: {fileID: 21300000, guid: ef53996e600a8364cba03169c112adab, type: 3}
   pressedSprite: {fileID: 21300000, guid: 6bb8f5dcc1e96c94ea1a7ad7bf61f56b, type: 3}

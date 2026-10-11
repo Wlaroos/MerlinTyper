@@ -47,13 +47,15 @@ public class KeyDataGenerator : EditorWindow
                 string defaultSpritePath = $"{SpriteFolderPath}/key_{keyName}_default.png";
                 string outlineSpritePath = $"{SpriteFolderPath}/key_{keyName}_outline.png";
                 string pressedSpritePath = $"{SpriteFolderPath}/key_{keyName}_pressed.png";
+                string darkSpritePath = $"{SpriteFolderPath}/key_{keyName}_dark.png";
 
                 Sprite defaultSprite = AssetDatabase.LoadAssetAtPath<Sprite>(defaultSpritePath);
                 Sprite outlineSprite = AssetDatabase.LoadAssetAtPath<Sprite>(outlineSpritePath);
                 Sprite pressedSprite = AssetDatabase.LoadAssetAtPath<Sprite>(pressedSpritePath);
+                Sprite darkSprite = AssetDatabase.LoadAssetAtPath<Sprite>(darkSpritePath);
 
                 // Skip key codes that don't have matching sprites in the folder
-                if (defaultSprite == null && outlineSprite == null && pressedSprite == null)
+                if (defaultSprite == null && outlineSprite == null && pressedSprite == null && darkSprite == null)
                 {
                     continue;
                 }
@@ -74,6 +76,7 @@ public class KeyDataGenerator : EditorWindow
                 keyData.defaultSprite = defaultSprite;
                 keyData.hoveredSprite = outlineSprite;
                 keyData.pressedSprite = pressedSprite;
+                keyData.darkSprite = darkSprite;
 
                 EditorUtility.SetDirty(keyData);
                 createdCount++;
