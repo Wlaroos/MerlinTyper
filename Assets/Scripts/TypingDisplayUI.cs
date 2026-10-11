@@ -184,13 +184,13 @@ public class TypingDisplayUI : MonoBehaviour
             bool isSpace = rawChar == ' ';
             string displayChar = isSpace ? " " : rawChar.ToString();
 
-            // <mspace=0.75em> ensures identical horizontal slot width
-            sb.Append("<mspace=0.75em>");
+            // <mspace=0.5em> ensures identical horizontal slot width
+            sb.Append("<mspace=0.5em>");
 
             // Typed (Green letter over Green underline)
             if (i < word.CurrentIndex)
             {
-                sb.Append($"<color=#00FF00>_<space=-0.75em><voffset=0.2em>{displayChar}</voffset></color>");
+                sb.Append($"<color=#00FF00>_<space=-0.5em><voffset=0.2em>{displayChar}</voffset></color>");
             }
             // Current Target (Red if error, Yellow if normal)
             else if (i == word.CurrentIndex)
@@ -198,18 +198,18 @@ public class TypingDisplayUI : MonoBehaviour
                 if (showError)
                 {
                     // Red letter and Red underline on error
-                    sb.Append($"<color=#FF0000><b>_<space=-0.75em><voffset=0.2em>{displayChar}</voffset></b></color>");
+                    sb.Append($"<color=#FF0000><b>_<space=-0.5em><voffset=0.2em>{displayChar}</voffset></b></color>");
                 }
                 else
                 {
                     // Yellow letter and Yellow underline
-                    sb.Append($"<color=#FFD700><b>_<space=-0.75em><voffset=0.2em>{displayChar}</voffset></b></color>");
+                    sb.Append($"<color=#FFD700>_<space=-0.5em><voffset=0.2em>{displayChar}</voffset></color>");
                 }
             }
             // Remaining (Grey letter over Grey underline)
             else
             {
-                sb.Append($"<color=#CCCCCC>_<space=-0.75em><voffset=0.2em>{displayChar}</voffset></color>");
+                sb.Append($"<color=#CCCCCC>_<space=-0.5em><voffset=0.2em>{displayChar}</voffset></color>");
             }
 
             sb.Append("</mspace>");
