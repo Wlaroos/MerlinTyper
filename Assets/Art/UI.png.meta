@@ -119,13 +119,13 @@ TextureImporter:
       name: UI_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 27
-        width: 20
-        height: 18
+        x: 4
+        y: 28
+        width: 18
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 8, y: 6, z: 4, w: 4}
+      border: {x: 7, y: 5, z: 3, w: 3}
       customData: 
       outline: []
       physicsShape: []
@@ -141,13 +141,13 @@ TextureImporter:
       name: UI_1
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1
-        width: 25
-        height: 25
+        x: 2
+        y: 2
+        width: 23
+        height: 23
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 12, y: 12, z: 12, w: 12}
+      border: {x: 11, y: 11, z: 11, w: 11}
       customData: 
       outline: []
       physicsShape: []
@@ -155,6 +155,50 @@ TextureImporter:
       bones: []
       spriteID: 78dbda97e36d52100800000000000000
       internalID: 82707731993968007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_2
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 2
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 11, y: 11, z: 11, w: 11}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2972fcc187ee4ad49874ac89d1400ec1
+      internalID: 836996762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_3
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 26
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 11, y: 11, z: 11, w: 11}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53947eaa9fdea944d83f37d267e0dbda
+      internalID: -1077157737
       vertices: []
       indices: 
       edges: []
@@ -175,6 +219,8 @@ TextureImporter:
     nameFileIdTable:
       UI_0: -1557013538026691241
       UI_1: 82707731993968007
+      UI_2: 836996762
+      UI_3: -1077157737
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
