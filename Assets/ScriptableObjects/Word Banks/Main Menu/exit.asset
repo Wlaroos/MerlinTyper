@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b285206d48eb549b899e02bc509217, type: 3}
-  m_Name: MainMenu
+  m_Name: exit
   m_EditorClassIdentifier: Assembly-CSharp::WordBank
   rawWordInput: 
   _words:
-  - play
+  - exit

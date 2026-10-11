@@ -14,20 +14,34 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.LeftShift) &&  Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();
+            ExitGame();
         }
 
         if(Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            RestartScene();
         }
     }
 
     public void NextScene()
     {
         StartCoroutine(FadeScreen(false));
+    }
+
+    public void ExitGame()
+    {
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+        
+        Application.Quit();
+    }
+
+    public void RestartScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private IEnumerator FadeScreen(bool isFadingIn)
