@@ -21,7 +21,6 @@ public class AdvanceIndicatorAnimator : MonoBehaviour
 
     private void OnDisable()
     {
-        ParticlePlay();
         if (_animCoroutine != null) StopCoroutine(_animCoroutine);
     }
 
@@ -36,7 +35,7 @@ public class AdvanceIndicatorAnimator : MonoBehaviour
         }
     }
 
-    private void ParticlePlay()
+    public void ParticlePlay()
     {
         _ps01.Play();
         _ps02.Play();   

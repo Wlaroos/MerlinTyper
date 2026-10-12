@@ -13,7 +13,7 @@ public class TutorialManager : MonoBehaviour
 
     [Header("UI References")]
     [SerializeField] private TMP_Text _npcDialogueTextField;
-    [SerializeField] private GameObject _advanceIndicatorSprite;
+    [SerializeField] private AdvanceIndicatorAnimator _advanceIndicator;
 
     [Header("Systems Integration")]
     [SerializeField] private TypingHotSpot _typingHotSpot;
@@ -34,9 +34,9 @@ public class TutorialManager : MonoBehaviour
 
     private void Start()
     {
-        if (_advanceIndicatorSprite != null)
+        if (_advanceIndicator != null)
         {
-            _advanceIndicatorSprite.SetActive(false);
+            _advanceIndicator.gameObject.SetActive(false);
         }
 
         if (_tutorialSequences != null && _tutorialSequences.Count > 0)
@@ -94,9 +94,9 @@ public class TutorialManager : MonoBehaviour
         _isStepFinished = false;
         _waitingForSpace = false;
 
-        if (_advanceIndicatorSprite != null)
+        if (_advanceIndicator != null)
         {
-            _advanceIndicatorSprite.SetActive(false);
+            _advanceIndicator.gameObject.SetActive(false);
         }
 
         // Display NPC text
@@ -202,9 +202,9 @@ public class TutorialManager : MonoBehaviour
         _isStepFinished = true;
         _waitingForSpace = true;
 
-        if (_advanceIndicatorSprite != null)
+        if (_advanceIndicator != null)
         {
-            _advanceIndicatorSprite.SetActive(true);
+            _advanceIndicator.gameObject.SetActive(true);
         }
     }
 
@@ -218,6 +218,7 @@ public class TutorialManager : MonoBehaviour
         if (_currentStepIndex + 1 < currentSequence.tutorialSteps.Count)
         {
             _currentStepIndex++;
+            _advanceIndicator?.ParticlePlay();
             LoadCurrentStep();
         }
         else
@@ -227,6 +228,7 @@ public class TutorialManager : MonoBehaviour
             _currentStepIndex = 0;
             if (_currentSequenceIndex < _tutorialSequences.Count)
             {
+                _advanceIndicator?.ParticlePlay();
                 LoadCurrentStep();
             }
             else
@@ -248,7 +250,7 @@ public class TutorialManager : MonoBehaviour
         }
 
         if (_npcDialogueTextField != null) _npcDialogueTextField.text = string.Empty;
-        if (_advanceIndicatorSprite != null) _advanceIndicatorSprite.SetActive(false);
+        if (_advanceIndicator != null) _advanceIndicator.gameObject.SetActive(false);
         if (_typingHotSpot != null) _typingHotSpot.gameObject.SetActive(false);
 
         // Disable tutorial manager

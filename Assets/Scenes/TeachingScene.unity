@@ -2308,7 +2308,7 @@ MonoBehaviour:
   _tutorialSequences:
   - {fileID: 11400000, guid: 745c41b4dc8ce9f4ca4f135e81c665fc, type: 2}
   _npcDialogueTextField: {fileID: 784289445}
-  _advanceIndicatorSprite: {fileID: 1467796569}
+  _advanceIndicator: {fileID: 1467796571}
   _typingHotSpot: {fileID: 731429121}
   _keyboardManager: {fileID: 17793775}
 --- !u!4 &1279652271

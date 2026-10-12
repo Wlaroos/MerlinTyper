@@ -20,4 +20,4 @@ MonoBehaviour:
   keysToHighlight: 660000006a000000
   highlightEntireRow: 0
   rowIndexToHighlight: 3
-  requireTypingCompletion: 0
+  requireTypingCompletion: 1
