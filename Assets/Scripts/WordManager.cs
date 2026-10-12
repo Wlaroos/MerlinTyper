@@ -212,6 +212,10 @@ public class WordManager : MonoBehaviour
             TargetWord = newWord;
             WordTargetedEvent?.Invoke(TargetWord);
         }
+        else
+        {
+            TargetWord = null;
+        }
 
         WordAddedEvent?.Invoke(newWord);
     }
