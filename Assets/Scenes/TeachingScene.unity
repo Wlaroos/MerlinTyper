@@ -2564,10 +2564,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialManager
   _tutorialSequences:
-  - {fileID: 11400000, guid: fb6195aea4719054480b94ef326fdb27, type: 2}
   - {fileID: 11400000, guid: 745c41b4dc8ce9f4ca4f135e81c665fc, type: 2}
   - {fileID: 11400000, guid: 9e7ce54565c7ba94e9e3c5cb4220ac4c, type: 2}
   - {fileID: 11400000, guid: f9c8452394d3a684d8312b2ab5c2f499, type: 2}
+  - {fileID: 11400000, guid: fb6195aea4719054480b94ef326fdb27, type: 2}
   _npcDialogueTextField: {fileID: 784289445}
   _advanceIndicator: {fileID: 1467796571}
   _typingHotSpot: {fileID: 731429121}

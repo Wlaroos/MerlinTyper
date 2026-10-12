@@ -443,6 +443,7 @@ GameObject:
   - component: {fileID: 126859379}
   - component: {fileID: 126859384}
   - component: {fileID: 126859383}
+  - component: {fileID: 126859385}
   - component: {fileID: 126859382}
   - component: {fileID: 126859381}
   - component: {fileID: 126859380}
@@ -625,6 +626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 676c99b8ab1a7b64d8d135ec2cfc0a3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TypingDisplayUI
+  _completeWordParticles: {fileID: 0}
 --- !u!114 &126859383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -645,9 +647,9 @@ MonoBehaviour:
   OnWordCompletedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1023442124}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: NextScene
+      - m_Target: {fileID: 126859385}
+        m_TargetAssemblyTypeName: HotspotSceneAction, Assembly-CSharp
+        m_MethodName: ExecuteAction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -665,6 +667,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 126859378}
   m_CullTransparentMesh: 1
+--- !u!114 &126859385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126859378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ed44a8363cd474f8aa4cf23eb34e81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HotspotSceneAction
+  _actionToTrigger: 0
 --- !u!1 &303307609
 GameObject:
   m_ObjectHideFlags: 0
@@ -1186,6 +1201,7 @@ GameObject:
   - component: {fileID: 731429117}
   - component: {fileID: 731429122}
   - component: {fileID: 731429121}
+  - component: {fileID: 731429123}
   - component: {fileID: 731429120}
   - component: {fileID: 731429119}
   - component: {fileID: 731429118}
@@ -1368,6 +1384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 676c99b8ab1a7b64d8d135ec2cfc0a3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TypingDisplayUI
+  _completeWordParticles: {fileID: 0}
 --- !u!114 &731429121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1388,9 +1405,9 @@ MonoBehaviour:
   OnWordCompletedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1023442124}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: ExitGame
+      - m_Target: {fileID: 731429123}
+        m_TargetAssemblyTypeName: HotspotSceneAction, Assembly-CSharp
+        m_MethodName: ExecuteAction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1408,6 +1425,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 731429116}
   m_CullTransparentMesh: 1
+--- !u!114 &731429123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 731429116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ed44a8363cd474f8aa4cf23eb34e81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HotspotSceneAction
+  _actionToTrigger: 2
 --- !u!1 &890170246
 GameObject:
   m_ObjectHideFlags: 0
@@ -1602,6 +1632,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 584fee10633742e44942434b1df869fe, type: 2}
   _shakeDuration: 0.2
   _shakeMagnitude: 3
+  _wordCompleteAnimDuration: 0.3
   _allowKeyHoldRepeat: 0
   _statsDisplay: {fileID: 0}
 --- !u!4 &1023442123

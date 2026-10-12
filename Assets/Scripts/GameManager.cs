@@ -4,30 +4,55 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
     private SpriteRenderer _sr;
+
     private void Awake()
     {
-        _sr = GetComponent<SpriteRenderer>();
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
 
+        _sr = GetComponent<SpriteRenderer>();
+    }
+
+    private void OnEnable()
+    {
+        // Subscribe to the scene loaded event
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe to prevent memory leaks
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Automatically fade back in whenever any scene finishes loading
         StartCoroutine(FadeScreen(true));
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.LeftShift) &&  Input.GetKeyDown(KeyCode.Escape))
+        // GetGey for modifier keys
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Escape))
         {
             ExitGame();
         }
 
-        if(Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.R))
         {
             RestartScene();
         }
-    }
-
-    public void NextScene()
-    {
-        StartCoroutine(FadeScreen(false));
     }
 
     public void ExitGame()
@@ -39,15 +64,24 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void RestartScene()
+    public void NextScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        StartCoroutine(FadeScreen(false, SceneManager.GetActiveScene().buildIndex + 1));
     }
 
-    private IEnumerator FadeScreen(bool isFadingIn)
+    public void FirstScene()
+    {
+        StartCoroutine(FadeScreen(false, 0));
+    }
+    public void RestartScene()
+    {
+        StartCoroutine(FadeScreen(false, SceneManager.GetActiveScene().buildIndex));
+    }
+
+    private IEnumerator FadeScreen(bool isFadingIn, int sceneBuildIndex = -1)
     {
         _sr.enabled = true;
-        _sr.color = new Color(0, 0, 0, isFadingIn ? 0 : 1); // Start with transparent black if fading in, opaque if fading out
+        _sr.color = new Color(0, 0, 0, isFadingIn ? 0 : 1); 
         float fadeDuration = 1f;
         float elapsedTime = 0f;
 
@@ -60,7 +94,11 @@ public class GameManager : MonoBehaviour
             _sr.color = new Color(0, 0, 0, alpha);
             yield return null;
         }
-        if (!isFadingIn)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+        // Load the scene only after the fade-out is complete
+        if (!isFadingIn && sceneBuildIndex >= 0)
+        {
+            SceneManager.LoadScene(sceneBuildIndex);
+        }
     }
 }

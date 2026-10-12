@@ -66,6 +66,11 @@ public class TutorialManager : MonoBehaviour
                 AdvanceToNextStep();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Tilde) || Input.GetKeyDown(KeyCode.BackQuote))
+        {
+            SkipCurrentSequence();
+        }
     }
 
     // Helper to safely fetch the active step across sequences
@@ -274,6 +279,33 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    private void SkipCurrentSequence()
+    {
+        _waitingForSpace = false;
+        _isStepFinished = false;
+
+        // Clean up current systems state immediately so old drills don't bleed over
+        _remainingDrillWords.Clear();
+        if (_typingHotSpot != null)
+        {
+            _typingHotSpot.gameObject.SetActive(false);
+        }
+
+        // Move on to the next sequence in the list
+        _currentSequenceIndex++;
+        _currentStepIndex = 0;
+
+        if (_currentSequenceIndex < _tutorialSequences.Count)
+        {
+            LoadCurrentStep();
+        }
+        else
+        {
+            // No more sequences left, complete the tutorial
+            CompleteTutorial();
+        }
+    }
+
     private void CompleteTutorial()
     {
         Debug.Log("Tutorial completed");
@@ -287,6 +319,8 @@ public class TutorialManager : MonoBehaviour
         if (_npcDialogueTextField != null) _npcDialogueTextField.text = string.Empty;
         if (_advanceIndicator != null) _advanceIndicator.gameObject.SetActive(false);
         if (_typingHotSpot != null) _typingHotSpot.gameObject.SetActive(false);
+
+        GameManager.Instance.FirstScene();
 
         // Disable tutorial manager
         gameObject.SetActive(false); 
