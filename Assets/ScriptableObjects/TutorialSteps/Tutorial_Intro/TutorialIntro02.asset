@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3e84c5636c22134e9972e3ef2d05b02, type: 3}
-  m_Name: TutorialIntro01 2
+  m_Name: TutorialIntro02
   m_EditorClassIdentifier: Assembly-CSharp::TutorialStepSO
-  npcDialogue: Sup buddy, we got some work to do on those useless fingers of yours
+  npcDialogue: To begin, my name is Merlin, and I'll be teaching you about keyboarding
   requiredWords: []
-  keysToHighlight: 
+  keysToHighlight: 20000000
   highlightEntireRow: 0
   rowIndexToHighlight: -1
   requireTypingCompletion: 0

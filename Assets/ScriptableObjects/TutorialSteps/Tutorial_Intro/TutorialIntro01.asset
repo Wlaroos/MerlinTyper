@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e84c5636c22134e9972e3ef2d05b02, type: 3}
   m_Name: TutorialIntro01
   m_EditorClassIdentifier: Assembly-CSharp::TutorialStepSO
-  npcDialogue: Hello, mage in training. My name is Merlin, and I'll be teaching you
-    about keyboarding. Please press the Spacebar key to continue.
+  npcDialogue: Hello mage in training, I've highlighted a key on the keyboard to
+    my right. Please press the Spacebar key to continue.
   requiredWords: []
   keysToHighlight: 20000000
   highlightEntireRow: 0

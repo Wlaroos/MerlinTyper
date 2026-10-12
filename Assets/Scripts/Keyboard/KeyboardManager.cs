@@ -45,7 +45,7 @@ public class KeyboardManager : MonoBehaviour
         {
             GameObject rowGO = Instantiate(_rowPrefab, _rowParent);
             RectTransform rowTransform = rowGO.GetComponent<RectTransform>();
-            rowTransform.sizeDelta = new Vector2(rowTransform.sizeDelta.x, 13 * _keyScale);
+            rowTransform.sizeDelta = new Vector2(200 * _keyScale, 13 * _keyScale);
 
             List<KeyView> currentRowViews = new List<KeyView>();
 

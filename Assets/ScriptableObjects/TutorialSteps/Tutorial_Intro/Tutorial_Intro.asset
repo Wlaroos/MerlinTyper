@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialSequenceSO
   tutorialSteps:
   - {fileID: 11400000, guid: 0219dfca3c8e6de4aafeaf8e90606763, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 71c7870e1d1518549971e4180b5c4f23, type: 2}
+  - {fileID: 11400000, guid: 6cf95e7862112944f8874575745f6647, type: 2}
+  - {fileID: 11400000, guid: 75560c3437ff3964fb960bc9462cda73, type: 2}
+  - {fileID: 11400000, guid: bf5546b62224e7442aea2f58aa93cda1, type: 2}
   - {fileID: 0}

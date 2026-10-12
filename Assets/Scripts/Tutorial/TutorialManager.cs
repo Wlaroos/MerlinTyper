@@ -19,7 +19,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private TypingHotSpot _typingHotSpot;
     [SerializeField] private KeyboardManager _keyboardManager;
     private Queue<string> _remainingDrillWords = new Queue<string>();
-    private bool _waitingForClickOrSpace = false;
+    private bool _waitingForSpace = false;
     private bool _isStepFinished = false;
 
     private void OnEnable()
@@ -53,10 +53,10 @@ public class TutorialManager : MonoBehaviour
 
     private void Update()
     {
-        // Check for click or spacebar input to advance dialogue when ready
-        if (_waitingForClickOrSpace)
+        // Check for spacebar input to advance dialogue when ready
+        if (_waitingForSpace)
         {
-            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 AdvanceToNextStep();
             }
@@ -92,7 +92,7 @@ public class TutorialManager : MonoBehaviour
         }
 
         _isStepFinished = false;
-        _waitingForClickOrSpace = false;
+        _waitingForSpace = false;
 
         if (_advanceIndicatorSprite != null)
         {
@@ -194,7 +194,7 @@ public class TutorialManager : MonoBehaviour
     private void EnableAdvancePrompt()
     {
         _isStepFinished = true;
-        _waitingForClickOrSpace = true;
+        _waitingForSpace = true;
 
         if (_advanceIndicatorSprite != null)
         {
@@ -204,7 +204,7 @@ public class TutorialManager : MonoBehaviour
 
     private void AdvanceToNextStep()
     {
-        _waitingForClickOrSpace = false;
+        _waitingForSpace = false;
 
         var currentSequence = _tutorialSequences[_currentSequenceIndex];
 

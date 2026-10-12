@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3e84c5636c22134e9972e3ef2d05b02, type: 3}
-  m_Name: TutorialIntro01 4
+  m_Name: TutorialIntro05
   m_EditorClassIdentifier: Assembly-CSharp::TutorialStepSO
-  npcDialogue: Sup buddy, we got some work to do on those useless fingers of yours
+  npcDialogue: Put your index fingers on the F and J keys and rest the other fingers
+    on the keys beside them
   requiredWords: []
-  keysToHighlight: 
+  keysToHighlight: 660000006a000000
   highlightEntireRow: 0
-  rowIndexToHighlight: -1
+  rowIndexToHighlight: 3
   requireTypingCompletion: 0
