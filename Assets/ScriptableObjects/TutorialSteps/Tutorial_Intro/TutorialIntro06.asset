@@ -12,16 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e84c5636c22134e9972e3ef2d05b02, type: 3}
   m_Name: TutorialIntro06
   m_EditorClassIdentifier: Assembly-CSharp::TutorialStepSO
-  npcDialogue: Nice job! Now try pressing the keys again
+  npcDialogue: Nice job! Now try pressing the keys in the order listed.
   requiredWords:
   - ff
   - jj
   - fj
   - jf
-  - fff
-  - fjfj
-  - jfjf
-  keysToHighlight: 660000006a000000
+  keysToHighlightInput: f,j
   highlightEntireRow: 0
   rowIndexToHighlight: 3
   requireTypingCompletion: 1

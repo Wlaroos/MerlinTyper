@@ -107,7 +107,13 @@ public class TutorialManager : MonoBehaviour
         // Display NPC text
         if (_npcDialogueTextField != null)
         {
+            _npcTextbox.enabled = true;
             _npcDialogueTextField.text = step.npcDialogue;
+
+            if (string.IsNullOrEmpty(step.npcDialogue))
+            {
+                _npcTextbox.enabled = false;
+            }
             
             // Force canvas update so TextMeshPro computes the correct preferred height
             Canvas.ForceUpdateCanvases();
@@ -127,6 +133,20 @@ public class TutorialManager : MonoBehaviour
         _remainingDrillWords.Clear();
         if (step.requiredWords != null && step.requiredWords.Count > 0)
         {
+            // Randomize the order of the required words if the bool is set
+            if (step.randomizeOrderOfList)
+            {
+                var randomizedList = new List<string>(step.requiredWords);
+                for (int i = 0; i < randomizedList.Count; i++)
+                {
+                    int randomIndex = Random.Range(i, randomizedList.Count);
+                    string temp = randomizedList[i];
+                    randomizedList[i] = randomizedList[randomIndex];
+                    randomizedList[randomIndex] = temp;
+                }
+                step.requiredWords = randomizedList;
+            }
+            // Enqueue the required words for the typing drill
             foreach (string word in step.requiredWords)
             {
                 _remainingDrillWords.Enqueue(word);
@@ -157,9 +177,9 @@ public class TutorialManager : MonoBehaviour
         {
             _keyboardManager.HighlightRow(step.rowIndexToHighlight);
         }
-        else if (step.keysToHighlight != null && step.keysToHighlight.Count > 0)
+        else if (step.GetKeysToHighlight() != null && step.GetKeysToHighlight().Count > 0)
         {
-            foreach (KeyCode key in step.keysToHighlight)
+            foreach (KeyCode key in step.GetKeysToHighlight())
             {
                 _keyboardManager.HighlightKey(key);
             }

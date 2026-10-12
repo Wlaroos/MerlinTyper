@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: TutorialIntro05
   m_EditorClassIdentifier: Assembly-CSharp::TutorialStepSO
   npcDialogue: Put your index fingers on the F and J keys and rest the other fingers
-    on the keys beside them. Now try typing f and j
+    on the keys beside them. Now try typing f and j with your hands held there.
   requiredWords:
   - f
   - j
-  keysToHighlight: 660000006a000000
+  keysToHighlightInput: f,j
   highlightEntireRow: 0
   rowIndexToHighlight: 3
   requireTypingCompletion: 1

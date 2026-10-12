@@ -36,6 +36,7 @@ public class WordManager : MonoBehaviour
 
     static WordManager()
     {
+        // Letters a-z and A-Z
         for (char c = 'a'; c <= 'z'; c++)
         {
             if (Enum.TryParse(c.ToString(), true, out KeyCode code))
@@ -44,8 +45,42 @@ public class WordManager : MonoBehaviour
                 CharToKeyCodeMap[char.ToUpper(c)] = code;
             }
         }
-        CharToKeyCodeMap[' '] = KeyCode.Space;
-        CharToKeyCodeMap['\b'] = KeyCode.Backspace;
+
+        // Numbers 0-9
+        for (char c = '0'; c <= '9'; c++)
+        {
+            if (Enum.TryParse("Alpha" + c, true, out KeyCode code))
+            {
+                CharToKeyCodeMap[c] = code;
+            }
+        }
+
+        // Standard punctuation and symbols (Mapping both unshifted and shifted variants to physical keys)
+        MapCharPair(' ', KeyCode.Space);
+        MapCharPair('\b', KeyCode.Backspace);
+        MapCharPair(',', '<', KeyCode.Comma);
+        MapCharPair('.', '>', KeyCode.Period);
+        MapCharPair(';', ':', KeyCode.Semicolon);
+        MapCharPair('\'', '"', KeyCode.Quote);
+        MapCharPair('[', '{', KeyCode.LeftBracket);
+        MapCharPair(']', '}', KeyCode.RightBracket);
+        MapCharPair('\\', '|', KeyCode.Backslash);
+        MapCharPair('-', '_', KeyCode.Minus);
+        MapCharPair('=', '+', KeyCode.Equals);
+        MapCharPair('/', '?', KeyCode.Slash);
+        MapCharPair('`', '~', KeyCode.BackQuote);
+
+        // Shifted number symbols (!, @, #, $, %, etc.)
+        CharToKeyCodeMap[')'] = KeyCode.Alpha0;
+        CharToKeyCodeMap['!'] = KeyCode.Alpha1;
+        CharToKeyCodeMap['@'] = KeyCode.Alpha2;
+        CharToKeyCodeMap['#'] = KeyCode.Alpha3;
+        CharToKeyCodeMap['$'] = KeyCode.Alpha4;
+        CharToKeyCodeMap['%'] = KeyCode.Alpha5;
+        CharToKeyCodeMap['^'] = KeyCode.Alpha6;
+        CharToKeyCodeMap['&'] = KeyCode.Alpha7;
+        CharToKeyCodeMap['*'] = KeyCode.Alpha8;
+        CharToKeyCodeMap['('] = KeyCode.Alpha9;
     }
 
     public struct KeyPressInfo
@@ -377,5 +412,16 @@ public class WordManager : MonoBehaviour
 
         float minutes = _totalTypingTime / 60f;
         _averageTypingSpeed = (_correctKeysTyped / 5f) / minutes;
+    }
+
+    private static void MapCharPair(char unshifted, KeyCode code)
+    {
+        if (unshifted < 128) CharToKeyCodeMap[unshifted] = code;
+    }
+
+    private static void MapCharPair(char unshifted, char shifted, KeyCode code)
+    {
+        if (unshifted < 128) CharToKeyCodeMap[unshifted] = code;
+        if (shifted < 128) CharToKeyCodeMap[shifted] = code;
     }
 }

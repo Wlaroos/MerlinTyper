@@ -25,7 +25,10 @@ public class MerlinAnim : MonoBehaviour
         _merlinManaImage.sprite = _merlinManaSprites[Random.Range(0, _merlinManaSprites.Length)];
 
         _merlinLeftHandImage.SetNativeSize();
+        _merlinLeftHandImage.rectTransform.sizeDelta *= 1.5f;
         _merlinRightHandImage.SetNativeSize();
+        _merlinRightHandImage.rectTransform.sizeDelta *= 1.5f;
         _merlinManaImage.SetNativeSize();
+        _merlinManaImage.rectTransform.sizeDelta *= 1.5f;
     }
 }

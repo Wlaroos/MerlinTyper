@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3e84c5636c22134e9972e3ef2d05b02, type: 3}
+  m_Name: TutorialHomeRow05
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialStepSO
+  npcDialogue: Now lets add the rest of the home row! Use your index fingers for
+    these keys and make sure to move your hands back to their originial positions
+    after typing each time.
+  requiredWords:
+  - fgf
+  - jhj
+  - agag
+  - ;h;h
+  - fgjh
+  - fdsag
+  - jkl;h
+  keysToHighlightInput: g,h
+  highlightEntireRow: 0
+  rowIndexToHighlight: -1
+  requireTypingCompletion: 1
