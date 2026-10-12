@@ -15,6 +15,6 @@ MonoBehaviour:
   keyId: Key_LeftBracket
   keyCode: 91
   defaultSprite: {fileID: 21300000, guid: f29ee83ad26bb284d815fdcb8a1863ce, type: 3}
-  darkSprite: {fileID: 9047050943032305692, guid: 5e53330d64ae71b48a3a6142c51a847c, type: 3}
-  hoveredSprite: {fileID: 21300000, guid: 4b3419f534c15e24fab8478b4a5de7db, type: 3}
+  darkSprite: {fileID: 21300000, guid: 5e53330d64ae71b48a3a6142c51a847c, type: 3}
+  highlightedSprite: {fileID: 21300000, guid: c07ed91be7c4db443974f5e547e2e819, type: 3}
   pressedSprite: {fileID: 21300000, guid: 9f0b8d688026a4c40b901185aa4fe357, type: 3}

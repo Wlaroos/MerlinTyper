@@ -15,6 +15,6 @@ MonoBehaviour:
   keyId: Key_Comma
   keyCode: 44
   defaultSprite: {fileID: 21300000, guid: 7866a04819355bb4e83895826a80b1ef, type: 3}
-  darkSprite: {fileID: 6684804546141413933, guid: 94cc7e84d630c804d82927d75450cb39, type: 3}
-  hoveredSprite: {fileID: 21300000, guid: 5290105d08735f946b6facf5f32deb6a, type: 3}
+  darkSprite: {fileID: 21300000, guid: 94cc7e84d630c804d82927d75450cb39, type: 3}
+  highlightedSprite: {fileID: 21300000, guid: 53e61eac162f2ac4a95570bd8eba19a6, type: 3}
   pressedSprite: {fileID: 21300000, guid: ce94d96c647c54445947eebe7212fda5, type: 3}

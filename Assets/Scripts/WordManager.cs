@@ -254,16 +254,14 @@ public class WordManager : MonoBehaviour
                         break;
                     }
                 }
-
+                // If no active words matched the input character, still invoke the key pressed event
                 if (!matchedWord)
                 {
-                    RecordKeypress(false);
-
                     KeyPressedEvent?.Invoke(new KeyPressInfo 
                     { 
                         Character = c, 
                         KeyCode = code, 
-                        IsCorrect = false, 
+                        IsCorrect = true, 
                         IsBackspace = false 
                     });
                 }

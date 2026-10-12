@@ -15,6 +15,6 @@ MonoBehaviour:
   keyId: Key_Period
   keyCode: 46
   defaultSprite: {fileID: 21300000, guid: 26b11151acd310a4a9fd9e475328b35f, type: 3}
-  darkSprite: {fileID: 4536861975217442099, guid: 0cfd5c34bd1b753469da980e229a17c0, type: 3}
-  hoveredSprite: {fileID: 21300000, guid: c8b014cf62a5fc94a8a3e041099a0901, type: 3}
+  darkSprite: {fileID: 21300000, guid: 0cfd5c34bd1b753469da980e229a17c0, type: 3}
+  highlightedSprite: {fileID: 21300000, guid: 0726fe34a44d08343829d83e5f80659a, type: 3}
   pressedSprite: {fileID: 21300000, guid: 78a149ec130218147a4d8d13266eee54, type: 3}

@@ -48,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -113,12 +113,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: key_a_pressed_0
+      name: key_backspace_pressed_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 12
+        width: 31
         height: 11
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5749eabf3ad602830800000000000000
-      internalID: 4044353016448324725
+      spriteID: 8bdb3f7f4b67d3e90800000000000000
+      internalID: -7044343722511450696
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      key_a_pressed_0: 4044353016448324725
+      key_backspace_pressed_0: -7044343722511450696
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -10,6 +10,6 @@ public class KeyDataSO : ScriptableObject
     [Header("Visual States")]
     public Sprite defaultSprite;
     public Sprite darkSprite;
-    public Sprite hoveredSprite;
+    public Sprite highlightedSprite;
     public Sprite pressedSprite;
 }

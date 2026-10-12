@@ -15,6 +15,6 @@ MonoBehaviour:
   keyId: Key_LeftAlt
   keyCode: 308
   defaultSprite: {fileID: 21300000, guid: 60efbeeb265a7434581bd00ea9c8a898, type: 3}
-  darkSprite: {fileID: 1986263560263251393, guid: dc729793ceba28b4e89f85c40ec21fc3, type: 3}
-  hoveredSprite: {fileID: 21300000, guid: fb15ec5cbe105ae41b7c1148948e779b, type: 3}
+  darkSprite: {fileID: 21300000, guid: dc729793ceba28b4e89f85c40ec21fc3, type: 3}
+  highlightedSprite: {fileID: 21300000, guid: 3cf1dff2e916b7d418d40c522b6ec62c, type: 3}
   pressedSprite: {fileID: 21300000, guid: b3abfe7326cd87d459449b18c522efcd, type: 3}

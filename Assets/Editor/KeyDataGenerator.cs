@@ -45,17 +45,17 @@ public class KeyDataGenerator : EditorWindow
 
                 // Format filenames based on convention: key_{lowercase keycode}_{state}
                 string defaultSpritePath = $"{SpriteFolderPath}/key_{keyName}_default.png";
-                string outlineSpritePath = $"{SpriteFolderPath}/key_{keyName}_outline.png";
+                string highlightedSpritePath = $"{SpriteFolderPath}/key_{keyName}_highlighted.png";
                 string pressedSpritePath = $"{SpriteFolderPath}/key_{keyName}_pressed.png";
                 string darkSpritePath = $"{SpriteFolderPath}/key_{keyName}_dark.png";
 
                 Sprite defaultSprite = AssetDatabase.LoadAssetAtPath<Sprite>(defaultSpritePath);
-                Sprite outlineSprite = AssetDatabase.LoadAssetAtPath<Sprite>(outlineSpritePath);
+                Sprite highlightedSprite = AssetDatabase.LoadAssetAtPath<Sprite>(highlightedSpritePath);
                 Sprite pressedSprite = AssetDatabase.LoadAssetAtPath<Sprite>(pressedSpritePath);
                 Sprite darkSprite = AssetDatabase.LoadAssetAtPath<Sprite>(darkSpritePath);
 
                 // Skip key codes that don't have matching sprites in the folder
-                if (defaultSprite == null && outlineSprite == null && pressedSprite == null && darkSprite == null)
+                if (defaultSprite == null && highlightedSprite == null && pressedSprite == null && darkSprite == null)
                 {
                     continue;
                 }
@@ -74,7 +74,7 @@ public class KeyDataGenerator : EditorWindow
                 keyData.keyId = $"Key_{code}";
                 keyData.keyCode = code;
                 keyData.defaultSprite = defaultSprite;
-                keyData.hoveredSprite = outlineSprite;
+                keyData.highlightedSprite = highlightedSprite;
                 keyData.pressedSprite = pressedSprite;
                 keyData.darkSprite = darkSprite;
 
@@ -168,20 +168,5 @@ public class KeyDataGenerator : EditorWindow
         };
 
         return map;
-    }
-
-    private static float GetDefaultWidthMultiplier(KeyCode code)
-    {
-        switch (code)
-        {
-            case KeyCode.Space: return 6.0f;
-            case KeyCode.Backspace:
-            case KeyCode.Tab:
-            case KeyCode.CapsLock:
-            case KeyCode.Return: return 1.5f;
-            case KeyCode.LeftShift:
-            case KeyCode.RightShift: return 2.0f;
-            default: return 1.0f;
-        }
     }
 }

@@ -15,6 +15,6 @@ MonoBehaviour:
   keyId: Key_CapsLock
   keyCode: 301
   defaultSprite: {fileID: 21300000, guid: 0372aede11fb4fa4fa584c839294663f, type: 3}
-  darkSprite: {fileID: -4240682053427471093, guid: 91dc2aab6acf21b42b375634139908c9, type: 3}
-  hoveredSprite: {fileID: 21300000, guid: d62bf3819e87a8e4aaf353806b0c162e, type: 3}
+  darkSprite: {fileID: 21300000, guid: 91dc2aab6acf21b42b375634139908c9, type: 3}
+  highlightedSprite: {fileID: 21300000, guid: 897d7f28b22c5f24db5de38ced572b8b, type: 3}
   pressedSprite: {fileID: 21300000, guid: b45bd066b36478645aad7b68bd6a534c, type: 3}

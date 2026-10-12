@@ -12,6 +12,8 @@ public class KeyboardManager : MonoBehaviour
     [SerializeField] private float _keyScale = 1f;
 
     private readonly Dictionary<KeyCode, KeyView> _keyLookup = new Dictionary<KeyCode, KeyView>();
+    private readonly List<List<KeyView>> _rowViews = new List<List<KeyView>>();
+    private readonly HashSet<KeyView> _activeHighlights = new HashSet<KeyView>();
 
     private void OnEnable()
     {
@@ -31,18 +33,21 @@ public class KeyboardManager : MonoBehaviour
         WordManager.LetterTypedEvent -= OnLetterTyped;
     }
 
-    private void Start()
+    private void Awake()
     {
         BuildKeyboard();
     }
 
     private void BuildKeyboard()
     {
+        _rowViews.Clear();
         foreach (var rowDef in _activeLayout.rows)
         {
             GameObject rowGO = Instantiate(_rowPrefab, _rowParent);
             RectTransform rowTransform = rowGO.GetComponent<RectTransform>();
             rowTransform.sizeDelta = new Vector2(rowTransform.sizeDelta.x, 13 * _keyScale);
+
+            List<KeyView> currentRowViews = new List<KeyView>();
 
             foreach (var keyData in rowDef.keys)
             {
@@ -50,13 +55,17 @@ public class KeyboardManager : MonoBehaviour
                 view.Initialize(keyData);
 
                 RectTransform viewTransform = view.GetComponent<RectTransform>();
-                viewTransform.sizeDelta = new Vector2(keyData.hoveredSprite.rect.width * _keyScale, keyData.hoveredSprite.rect.height * _keyScale);
+                viewTransform.sizeDelta = new Vector2(keyData.highlightedSprite.rect.width * _keyScale, keyData.highlightedSprite.rect.height * _keyScale);
 
                 if (!_keyLookup.ContainsKey(keyData.keyCode))
                 {
                     _keyLookup.Add(keyData.keyCode, view);
                 }
+
+                currentRowViews.Add(view);
             }
+
+            _rowViews.Add(currentRowViews);
         }
     }
 
@@ -74,61 +83,95 @@ public class KeyboardManager : MonoBehaviour
             }
             else if (Input.GetKeyUp(code))
             {
-                keyView.SetState(KeyView.KeyState.Default);
+                // If the key is currently highlighted by the tutorial, revert to hovered instead of default
+                if (_activeHighlights.Contains(keyView))
+                {
+                    keyView.SetState(KeyView.KeyState.Highlighted);
+                }
+                else
+                {
+                    keyView.SetState(KeyView.KeyState.Default);
+                }
             }
         }
     }
 
     private void OnKeyPressed(WordManager.KeyPressInfo info)
     {
-        // Ignore backspace if you don't want a key visual for it, or handle it if mapped
         if (info.KeyCode == KeyCode.None) return;
 
         if (_keyLookup.TryGetValue(info.KeyCode, out KeyView keyView))
         {
-            // Trigger visual feedback (e.g., turn red if info.IsCorrect is false)
             FlashFeedback(keyView, info.IsCorrect);
         }
     }
 
     public void FlashFeedback(KeyView keyView, bool isCorrect)
     {
-        // Flash red if incorrect, green if correct
         Color feedbackColor = isCorrect ? Color.green : Color.red;
-        
-        StartCoroutine(FlashRoutine(keyView.GetComponent<Image>(), feedbackColor));
+        StartCoroutine(FlashRoutine(feedbackColor, keyView));
     }
 
-    private IEnumerator FlashRoutine(Image image, Color targetColor)
+    private IEnumerator FlashRoutine(Color targetColor, KeyView keyView)
     {
-        // Apply feedback color, wait a fraction of a second, then restore
-        image.color = targetColor;
+        keyView.SetColor(targetColor);
         yield return new WaitForSeconds(1f);
-        image.color = Color.white; // Or revert to active KeyState
+        keyView.SetColor(Color.white); 
+
+        // Restore highlight state if active, otherwise default
+        if (_activeHighlights.Contains(keyView))
+        {
+            keyView.SetState(KeyView.KeyState.Highlighted);
+        }
+        else
+        {
+            keyView.SetState(KeyView.KeyState.Default);
+        }
     }
 
-    private void OnWordTargeted(Word word)
-    {
-        
-    }
-
-    private void OnWordUntargeted(Word word)
-    {
-        
-    }
-
-    private void OnWordCompleted(Word word)
-    {
-        
-    }
+    private void OnWordTargeted(Word word) { }
+    private void OnWordUntargeted(Word word) { }
+    private void OnWordCompleted(Word word) { }
 
     private void OnLetterTyped(Word word, char typedChar, bool isCorrect)
     {
-        // Optionally, you can highlight the key corresponding to typedChar
         KeyCode code = WordManager.Instance.ConvertCharToKeyCode(typedChar);
         if (_keyLookup.TryGetValue(code, out KeyView keyView))
         {
             FlashFeedback(keyView, isCorrect);
         }
+    }
+
+    public void HighlightRow(int rowIndex)
+    {
+        if (rowIndex >= 0 && rowIndex < _rowViews.Count)
+        {
+            foreach (var keyView in _rowViews[rowIndex])
+            {
+                keyView.SetState(KeyView.KeyState.Highlighted);
+                _activeHighlights.Add(keyView);
+            }
+        }
+    }
+
+    public void HighlightKey(KeyCode key)
+    {
+        if (_keyLookup.TryGetValue(key, out KeyView keyView))
+        {
+            keyView.SetState(KeyView.KeyState.Highlighted);
+            _activeHighlights.Add(keyView);
+        }
+    }
+
+    public void ClearHighlights()
+    {
+        foreach (var keyView in _activeHighlights)
+        {
+            if (keyView != null)
+            {
+                keyView.SetState(KeyView.KeyState.Default);
+            }
+        }
+        _activeHighlights.Clear();
     }
 }

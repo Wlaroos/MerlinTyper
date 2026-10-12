@@ -15,6 +15,6 @@ MonoBehaviour:
   keyId: Key_LeftMeta
   keyCode: 310
   defaultSprite: {fileID: 21300000, guid: c350e8c099eda1b4c8858bb39cd735de, type: 3}
-  darkSprite: {fileID: -5539987503406599074, guid: 76e5912e1c360dc419de44bda09c9b29, type: 3}
-  hoveredSprite: {fileID: 21300000, guid: 69227bcdf585e37429c871d45cb63678, type: 3}
+  darkSprite: {fileID: 21300000, guid: 76e5912e1c360dc419de44bda09c9b29, type: 3}
+  highlightedSprite: {fileID: 21300000, guid: b8f253c3a30dbde44bfb7c0459d6b57a, type: 3}
   pressedSprite: {fileID: 21300000, guid: f6656a7d8dfef78468200e08fbb93db8, type: 3}

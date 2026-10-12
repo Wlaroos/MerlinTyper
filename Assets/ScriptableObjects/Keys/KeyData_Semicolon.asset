@@ -15,6 +15,6 @@ MonoBehaviour:
   keyId: Key_Semicolon
   keyCode: 59
   defaultSprite: {fileID: 21300000, guid: 9f696c86ccbb34945b719599678cb308, type: 3}
-  darkSprite: {fileID: 7132011690732664300, guid: 66e8f3550d5cfe64e879d6f24e709565, type: 3}
-  hoveredSprite: {fileID: 21300000, guid: 5c8acc89f8adf6a4498fca1245878810, type: 3}
+  darkSprite: {fileID: 21300000, guid: 66e8f3550d5cfe64e879d6f24e709565, type: 3}
+  highlightedSprite: {fileID: 21300000, guid: 29eb37b0998f43c45a579ec4153ec9fd, type: 3}
   pressedSprite: {fileID: 21300000, guid: 05f23445699f9f043adbf8e7c7e8730c, type: 3}
