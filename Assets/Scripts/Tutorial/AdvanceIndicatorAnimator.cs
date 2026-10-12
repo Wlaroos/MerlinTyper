@@ -35,9 +35,9 @@ public class AdvanceIndicatorAnimator : MonoBehaviour
         }
     }
 
-    public void ParticlePlay()
-    {
-        _ps01.Play();
-        _ps02.Play();   
-    }
+    // public void ParticlePlay()
+    // {
+    //     _ps01.Play();
+    //     _ps02.Play();   
+    // }
 }

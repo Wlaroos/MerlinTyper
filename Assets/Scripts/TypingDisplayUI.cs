@@ -6,14 +6,17 @@ using UnityEngine;
 
 public class TypingDisplayUI : MonoBehaviour
 {
+    [SerializeField] ParticleSystem _completeWordParticles;
     [Header("Char Shake Settings")]
-    private float _shakeDuration, _shakeMagnitude;
+    private float _shakeDuration, _shakeMagnitude, _completeAnimDuration;
     private TMP_Text _wordDisplay;
     private Word _assignedWord;
     private Action<TypingDisplayUI> _onRecycle;
 
     private int _shakingCharIndex = -1;
     private Coroutine _shakeCoroutine;
+    private Coroutine _completeAnimCoroutine;
+    private bool _isCompleting = false;
 
     private void Awake()
     {
@@ -26,6 +29,7 @@ public class TypingDisplayUI : MonoBehaviour
         {
             _shakeDuration = WordManager.Instance.ShakeDuration;
             _shakeMagnitude = WordManager.Instance.ShakeMagnitude;
+            _completeAnimDuration = WordManager.Instance.WordCompleteAnimDuration;
         }
     }
 
@@ -34,6 +38,13 @@ public class TypingDisplayUI : MonoBehaviour
         _assignedWord = word;
         _onRecycle = recycleCallback;
         _shakingCharIndex = -1;
+        _isCompleting = false;
+
+        if (_completeAnimCoroutine != null)
+        {
+            StopCoroutine(_completeAnimCoroutine);
+            _completeAnimCoroutine = null;
+        }
 
         UpdateDisplay(_assignedWord, false);
     }
@@ -43,11 +54,18 @@ public class TypingDisplayUI : MonoBehaviour
         _assignedWord = null;
         _shakingCharIndex = -1;
         _onRecycle = null;
+        _isCompleting = false;
 
         if (_shakeCoroutine != null)
         {
             StopCoroutine(_shakeCoroutine);
             _shakeCoroutine = null;
+        }
+
+        if (_completeAnimCoroutine != null)
+        {
+            StopCoroutine(_completeAnimCoroutine);
+            _completeAnimCoroutine = null;
         }
 
         if (_wordDisplay != null)
@@ -73,6 +91,12 @@ public class TypingDisplayUI : MonoBehaviour
         {
             StopCoroutine(_shakeCoroutine);
             _shakeCoroutine = null;
+        }
+
+        if (_completeAnimCoroutine != null)
+        {
+            StopCoroutine(_completeAnimCoroutine);
+            _completeAnimCoroutine = null;
         }
         _shakingCharIndex = -1;
     }
@@ -163,15 +187,19 @@ public class TypingDisplayUI : MonoBehaviour
         return -1;
     }
 
-    private void UpdateDisplay(Word word, bool showError = false)
+    private void UpdateDisplay(Word word, bool showError = false, bool showComplete = false)
     {
         if (_assignedWord == word && _wordDisplay != null)
         {
-            _wordDisplay.text = FormatWordText(word, showError);
+            _wordDisplay.text = FormatWordText(word, showError, showComplete);
+        }
+        if (showComplete && _completeWordParticles != null)
+        {
+            _completeWordParticles.Play();
         }
     }
 
-    private string FormatWordText(Word word, bool showError = false)
+    private string FormatWordText(Word word, bool showError = false, bool showComplete = false)
     {
         if (word == null || string.IsNullOrEmpty(word.Text)) return string.Empty;
 
@@ -187,8 +215,13 @@ public class TypingDisplayUI : MonoBehaviour
             // <mspace=0.5em> ensures identical horizontal slot width
             sb.Append("<mspace=0.5em>");
 
+            // If complete animation is active, render all characters with a success pop/bright color style
+            if (showComplete)
+            {
+                sb.Append($"<color=#55FF55>_<space=-0.5em><voffset=0.3em>{displayChar}</voffset></color>");
+            }
             // Typed (Green letter over Green underline)
-            if (i < word.CurrentIndex)
+            else if (i < word.CurrentIndex)
             {
                 sb.Append($"<color=#00FF00>_<space=-0.5em><voffset=0.2em>{displayChar}</voffset></color>");
             }
@@ -223,7 +256,7 @@ public class TypingDisplayUI : MonoBehaviour
 
     private void OnLetterTyped(Word word, char c, bool isCorrect)
     {
-        if (_assignedWord == word)
+        if (_assignedWord == word && !_isCompleting)
         {
             if (!isCorrect)
             {
@@ -233,6 +266,12 @@ public class TypingDisplayUI : MonoBehaviour
             {
                 _shakingCharIndex = -1;
                 UpdateDisplay(word, false);
+
+                // Check if this correct keystroke completed the word
+                if (word.IsCompleted())
+                {
+                    TriggerWordCompleteAnimation(word);
+                }
             }
         }
     }
@@ -266,9 +305,30 @@ public class TypingDisplayUI : MonoBehaviour
         _shakeCoroutine = null;
     }
 
+    private void TriggerWordCompleteAnimation(Word word)
+    {
+        if (_completeAnimCoroutine != null)
+        {
+            StopCoroutine(_completeAnimCoroutine);
+        }
+
+        _completeAnimCoroutine = StartCoroutine(WordCompleteRoutine(word));
+    }
+
+    private IEnumerator WordCompleteRoutine(Word word)
+    {
+        _isCompleting = true;
+        _shakingCharIndex = -1;
+        UpdateDisplay(word, showError: false, showComplete: true);
+
+        yield return new WaitForSeconds(_completeAnimDuration);
+
+        _completeAnimCoroutine = null;
+    }
+
     private void OnLetterBackspace(Word word, bool isCorrect)
     {
-        if (_assignedWord == word)
+        if (_assignedWord == word && !_isCompleting)
         {
             _shakingCharIndex = -1;
             UpdateDisplay(word, false);
@@ -282,6 +342,7 @@ public class TypingDisplayUI : MonoBehaviour
         {
             _assignedWord = null;
             _shakingCharIndex = -1;
+            _isCompleting = false;
             _onRecycle?.Invoke(this);
         }
     }

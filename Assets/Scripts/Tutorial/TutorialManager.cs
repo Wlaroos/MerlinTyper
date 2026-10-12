@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class TutorialManager : MonoBehaviour
 
     [Header("UI References")]
     [SerializeField] private TMP_Text _npcDialogueTextField;
+    private Image _npcTextbox;
+    private int _npcTextTotalVerticalPadding = 80;
     [SerializeField] private AdvanceIndicatorAnimator _advanceIndicator;
 
     [Header("Systems Integration")]
@@ -38,6 +41,8 @@ public class TutorialManager : MonoBehaviour
         {
             _advanceIndicator.gameObject.SetActive(false);
         }
+
+        _npcTextbox = _npcDialogueTextField.GetComponentInParent<Image>();
 
         if (_tutorialSequences != null && _tutorialSequences.Count > 0)
         {
@@ -103,6 +108,16 @@ public class TutorialManager : MonoBehaviour
         if (_npcDialogueTextField != null)
         {
             _npcDialogueTextField.text = step.npcDialogue;
+            
+            // Force canvas update so TextMeshPro computes the correct preferred height
+            Canvas.ForceUpdateCanvases();
+
+            // Use the text's preferred height plus your top and bottom padding
+            float textHeight = _npcDialogueTextField.preferredHeight;
+            float totalHeight = textHeight + _npcTextTotalVerticalPadding;
+
+            // Apply size to the textbox
+            _npcTextbox.rectTransform.sizeDelta = new Vector2(_npcTextbox.rectTransform.sizeDelta.x, totalHeight);
         }
 
         // Setup Keyboard Highlighting
@@ -218,7 +233,7 @@ public class TutorialManager : MonoBehaviour
         if (_currentStepIndex + 1 < currentSequence.tutorialSteps.Count)
         {
             _currentStepIndex++;
-            _advanceIndicator?.ParticlePlay();
+            //_advanceIndicator?.ParticlePlay();
             LoadCurrentStep();
         }
         else
@@ -228,7 +243,7 @@ public class TutorialManager : MonoBehaviour
             _currentStepIndex = 0;
             if (_currentSequenceIndex < _tutorialSequences.Count)
             {
-                _advanceIndicator?.ParticlePlay();
+                //_advanceIndicator?.ParticlePlay();
                 LoadCurrentStep();
             }
             else

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class WordManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class WordManager : MonoBehaviour
     [SerializeField] private WordBank[] _wordBanks;
     [SerializeField] private float _shakeDuration = 0.2f;
     [SerializeField] private float _shakeMagnitude = 3f;
+    [SerializeField] private float _wordCompleteAnimDuration = 0.3f; // Duration for the correct word complete animation
 
     [Header("Input Settings")]
     [Tooltip("If false, holding down a physical key will only register a single press until released.")]
@@ -18,6 +20,9 @@ public class WordManager : MonoBehaviour
 
     public float ShakeDuration => _shakeDuration;
     public float ShakeMagnitude => _shakeMagnitude;
+    public float WordCompleteAnimDuration => _wordCompleteAnimDuration;
+    public bool IsWordCompleting { get; private set; } = false;
+
     public List<Word> ActiveWords { get; private set; } = new List<Word>();
     public Word TargetWord { get; private set; }
 
@@ -109,7 +114,11 @@ public class WordManager : MonoBehaviour
             RecalculateWPM();
         }
 
-        ProcessInput();
+        // Do not process input while a word completion animation is locking assignment/input
+        if (!IsWordCompleting)
+        {
+            ProcessInput();
+        }
 
         if (_statsDisplay != null)
         {
@@ -122,6 +131,9 @@ public class WordManager : MonoBehaviour
 
     public Word RequestWordForHotSpot(WordBank customBank = null)
     {
+        // Prevent assigning new words while completion animation is active
+        if (IsWordCompleting) return null;
+
         WordBank bankToUse = customBank != null 
             ? customBank 
             : (_wordBanks != null && _wordBanks.Length > 0 ? _wordBanks[UnityEngine.Random.Range(0, _wordBanks.Length)] : null);
@@ -139,6 +151,8 @@ public class WordManager : MonoBehaviour
 
     public Word RequestSpecificWord(string wordText)
     {
+        // Prevent assigning specific words while completion animation is active
+        if (IsWordCompleting) return null;
         if (string.IsNullOrEmpty(wordText)) return null;
 
         Word newWord = new Word(wordText);
@@ -184,7 +198,7 @@ public class WordManager : MonoBehaviour
             WordUntargetedEvent?.Invoke(word);
 
             // If another word remains active, automatically target it
-            if (ActiveWords.Count == 1)
+            if (ActiveWords.Count == 1 && !IsWordCompleting)
             {
                 TargetWord = ActiveWords[0];
                 WordTargetedEvent?.Invoke(TargetWord);
@@ -260,6 +274,7 @@ public class WordManager : MonoBehaviour
                 if (isCorrect && TargetWord.IsCompleted())
                 {
                     CompleteWord(TargetWord);
+                    break;
                 }
             }
             // Search Active Words
@@ -311,6 +326,20 @@ public class WordManager : MonoBehaviour
         }
     }
 
+    private IEnumerator HandleWordCompletionRoutine(Word word)
+    {
+        IsWordCompleting = true;
+        _totalWordsCompleted++;
+        RecalculateWPM();
+
+        // Wait for the correct word completion animation to finish before releasing/events
+        yield return new WaitForSeconds(_wordCompleteAnimDuration);
+
+        IsWordCompleting = false;
+        ReleaseWord(word);
+        WordCompletedEvent?.Invoke(word);
+    }
+
     public KeyCode ConvertCharToKeyCode(char c)
     {
         if (c < 128)
@@ -338,11 +367,8 @@ public class WordManager : MonoBehaviour
 
     private void CompleteWord(Word word)
     {
-        _totalWordsCompleted++;
-        RecalculateWPM();
-
-        ReleaseWord(word);
-        WordCompletedEvent?.Invoke(word);
+        // Kept for backward compatibility if called directly elsewhere
+        StartCoroutine(HandleWordCompletionRoutine(word));
     }
 
     private void RecalculateWPM()
