@@ -79,6 +79,25 @@ public class TypingHotSpot : MonoBehaviour
         }
     }
 
+    // Allows TutorialManager to set a specific word directly
+    public void SetTutorialWord(string wordText)
+    {
+        if (WordManager.Instance == null) return;
+
+        CleanupCurrentWord();
+
+        Word newWord = WordManager.Instance.RequestSpecificWord(wordText);
+        
+        if (newWord != null)
+        {
+            CurrentWord = newWord;
+            if (_displayUI != null)
+            {
+                _displayUI.Setup(CurrentWord, OnDisplayRecycled);
+            }
+        }
+    }
+
     private IEnumerator RetryAssignWordNextFrame()
     {
         yield return null;

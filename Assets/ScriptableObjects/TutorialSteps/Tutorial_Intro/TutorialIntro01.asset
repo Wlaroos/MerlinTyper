@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TutorialIntro01
   m_EditorClassIdentifier: Assembly-CSharp::TutorialStepSO
   npcDialogue: Hello mage in training, I've highlighted a key on the keyboard to
-    my right. Please press the Spacebar key to continue.
+    my right. Please press that key to continue.
   requiredWords: []
   keysToHighlight: 20000000
   highlightEntireRow: 0

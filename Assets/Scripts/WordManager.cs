@@ -47,8 +47,15 @@ public class WordManager : MonoBehaviour
     {
         public char Character;
         public KeyCode KeyCode;
-        public bool IsCorrect;
+        public EnumKeyPressResult KeyPressResult;
         public bool IsBackspace;
+    }
+
+    public enum EnumKeyPressResult
+    {
+        Correct,
+        Incorrect,
+        Ignored
     }
 
     // Events
@@ -125,12 +132,39 @@ public class WordManager : MonoBehaviour
         if (string.IsNullOrEmpty(newString)) return null;
 
         Word newWord = new Word(newString);
-        
+        RegisterNewActiveWord(newWord);
+
+        return newWord;
+    }
+
+    public Word RequestSpecificWord(string wordText)
+    {
+        if (string.IsNullOrEmpty(wordText)) return null;
+
+        Word newWord = new Word(wordText);
+        RegisterNewActiveWord(newWord);
+
+        return newWord;
+    }
+
+    private void RegisterNewActiveWord(Word newWord)
+    {
         ActiveWords.Add(newWord);
-        _usedStartingLetters.Add(newWord.GetFirstChar());
+        
+        char firstChar = newWord.GetFirstChar();
+        if (!_usedStartingLetters.Contains(firstChar))
+        {
+            _usedStartingLetters.Add(firstChar);
+        }
+
+        // If there is only one active word, automatically target it so single-word/tutorial hotspots accept typing immediately
+        if (ActiveWords.Count == 1 && TargetWord == null)
+        {
+            TargetWord = newWord;
+            WordTargetedEvent?.Invoke(TargetWord);
+        }
 
         WordAddedEvent?.Invoke(newWord);
-        return newWord;
     }
 
     public void ReleaseWord(Word word)
@@ -148,6 +182,13 @@ public class WordManager : MonoBehaviour
         {
             TargetWord = null;
             WordUntargetedEvent?.Invoke(word);
+
+            // If another word remains active, automatically target it
+            if (ActiveWords.Count == 1)
+            {
+                TargetWord = ActiveWords[0];
+                WordTargetedEvent?.Invoke(TargetWord);
+            }
         }
     }
 
@@ -181,7 +222,7 @@ public class WordManager : MonoBehaviour
                 { 
                     Character = c, 
                     KeyCode = KeyCode.Backspace, 
-                    IsCorrect = true, 
+                    KeyPressResult = EnumKeyPressResult.Correct,
                     IsBackspace = true 
                 });
 
@@ -190,7 +231,7 @@ public class WordManager : MonoBehaviour
                     TargetWord.Backspace();
                     LetterBackspaceEvent?.Invoke(TargetWord, true);
 
-                    if (TargetWord.CurrentIndex == 0)
+                    if (TargetWord.CurrentIndex == 0 && ActiveWords.Count > 1)
                     {
                         Word untargeted = TargetWord;
                         TargetWord = null;
@@ -210,7 +251,7 @@ public class WordManager : MonoBehaviour
                 { 
                     Character = c, 
                     KeyCode = code, 
-                    IsCorrect = isCorrect, 
+                    KeyPressResult = EnumKeyPressResult.Correct,
                     IsBackspace = false 
                 });
 
@@ -240,7 +281,7 @@ public class WordManager : MonoBehaviour
                         { 
                             Character = c, 
                             KeyCode = code, 
-                            IsCorrect = true, 
+                            KeyPressResult = EnumKeyPressResult.Correct,
                             IsBackspace = false 
                         });
 
@@ -254,14 +295,15 @@ public class WordManager : MonoBehaviour
                         break;
                     }
                 }
-                // If no active words matched the input character, still invoke the key pressed event
+
+                // If there is no active word, don't record the key
                 if (!matchedWord)
                 {
                     KeyPressedEvent?.Invoke(new KeyPressInfo 
                     { 
                         Character = c, 
                         KeyCode = code, 
-                        IsCorrect = true, 
+                        KeyPressResult = EnumKeyPressResult.Ignored,
                         IsBackspace = false 
                     });
                 }

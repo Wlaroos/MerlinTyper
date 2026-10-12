@@ -155,7 +155,11 @@ public class TutorialManager : MonoBehaviour
     {
         if (_remainingDrillWords.Count > 0)
         {
-            _remainingDrillWords.Dequeue();
+            string nextWord = _remainingDrillWords.Dequeue();
+            if (_typingHotSpot != null)
+            {
+                _typingHotSpot.SetTutorialWord(nextWord);
+            }
         }
         else
         {
@@ -177,16 +181,18 @@ public class TutorialManager : MonoBehaviour
     {
         if (_isStepFinished) return;
 
+        // When a word finishes, check if there are more drill words left in the queue
         if (_remainingDrillWords.Count > 0)
         {
             FeedNextDrillWord();
         }
         else
         {
+            // No more drill words left, advance to the next step if typing completion is required
             TutorialStepSO step = GetCurrentStep();
             if (step != null && step.requireTypingCompletion)
             {
-                EnableAdvancePrompt();
+                AdvanceToNextStep();
             }
         }
     }
@@ -245,6 +251,7 @@ public class TutorialManager : MonoBehaviour
         if (_advanceIndicatorSprite != null) _advanceIndicatorSprite.SetActive(false);
         if (_typingHotSpot != null) _typingHotSpot.gameObject.SetActive(false);
 
-        gameObject.SetActive(false); // Disable tutorial manager
+        // Disable tutorial manager
+        gameObject.SetActive(false); 
     }
 }

@@ -102,13 +102,16 @@ public class KeyboardManager : MonoBehaviour
 
         if (_keyLookup.TryGetValue(info.KeyCode, out KeyView keyView))
         {
-            FlashFeedback(keyView, info.IsCorrect);
+            FlashFeedback(keyView, info.KeyPressResult);
         }
     }
 
-    public void FlashFeedback(KeyView keyView, bool isCorrect)
+    public void FlashFeedback(KeyView keyView, WordManager.EnumKeyPressResult keyPressResult)
     {
-        Color feedbackColor = isCorrect ? Color.green : Color.red;
+        // Ignore feedback for ignored key presses
+        if (keyPressResult == WordManager.EnumKeyPressResult.Ignored) return;
+
+        Color feedbackColor = keyPressResult == WordManager.EnumKeyPressResult.Correct ? Color.green : Color.red;
         StartCoroutine(FlashRoutine(feedbackColor, keyView));
     }
 
@@ -138,7 +141,7 @@ public class KeyboardManager : MonoBehaviour
         KeyCode code = WordManager.Instance.ConvertCharToKeyCode(typedChar);
         if (_keyLookup.TryGetValue(code, out KeyView keyView))
         {
-            FlashFeedback(keyView, isCorrect);
+            FlashFeedback(keyView, isCorrect ? WordManager.EnumKeyPressResult.Correct : WordManager.EnumKeyPressResult.Incorrect);
         }
     }
 

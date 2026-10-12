@@ -7,6 +7,8 @@ public class AdvanceIndicatorAnimator : MonoBehaviour
     [SerializeField] private Sprite[] _sprites = new Sprite[2]; // Two frames
     [SerializeField] private float _frameRate = 0.3f;
 
+    [SerializeField] private ParticleSystem _ps01;
+    [SerializeField] private ParticleSystem _ps02;
     private Coroutine _animCoroutine;
 
     private void OnEnable()
@@ -19,6 +21,7 @@ public class AdvanceIndicatorAnimator : MonoBehaviour
 
     private void OnDisable()
     {
+        ParticlePlay();
         if (_animCoroutine != null) StopCoroutine(_animCoroutine);
     }
 
@@ -31,5 +34,11 @@ public class AdvanceIndicatorAnimator : MonoBehaviour
             frame = (frame + 1) % 2;
             yield return new WaitForSeconds(_frameRate);
         }
+    }
+
+    private void ParticlePlay()
+    {
+        _ps01.Play();
+        _ps02.Play();   
     }
 }
