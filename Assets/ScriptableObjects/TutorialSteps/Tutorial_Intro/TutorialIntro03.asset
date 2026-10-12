@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e84c5636c22134e9972e3ef2d05b02, type: 3}
   m_Name: TutorialIntro03
   m_EditorClassIdentifier: Assembly-CSharp::TutorialStepSO
-  npcDialogue: The row highlighted on the keyboard is called the Home Row.
+  npcDialogue: 'The row highlighted on the keyboard is called the Home Row. This
+    row is important to know because your hands should always come back to rest on
+    the home row. '
   requiredWords: []
+  randomizeOrderOfList: 0
   keysToHighlightInput: 
   highlightEntireRow: 1
   rowIndexToHighlight: 3

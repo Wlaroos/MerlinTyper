@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e84c5636c22134e9972e3ef2d05b02, type: 3}
   m_Name: TutorialSpacebar01
   m_EditorClassIdentifier: Assembly-CSharp::TutorialStepSO
-  npcDialogue: Now lets add the spacebar. Use either of your thumbs to press the
-    spacebar.
+  npcDialogue: Now lets add the Spacebar. Use either of your thumbs to press the
+    Spacebar.
   requiredWords:
   - a s d f
   - a ad

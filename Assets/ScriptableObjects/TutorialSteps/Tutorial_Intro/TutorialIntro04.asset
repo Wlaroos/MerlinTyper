@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e84c5636c22134e9972e3ef2d05b02, type: 3}
   m_Name: TutorialIntro04
   m_EditorClassIdentifier: Assembly-CSharp::TutorialStepSO
-  npcDialogue: It's important to know because your hands should always come back
-    to rest on the home row.
+  npcDialogue: The F and J keys have little bumps on them so you can always tell
+    where they are without looking at the keyboard.
   requiredWords: []
-  keysToHighlight: 
-  highlightEntireRow: 1
+  randomizeOrderOfList: 0
+  keysToHighlightInput: f,j
+  highlightEntireRow: 0
   rowIndexToHighlight: 3
   requireTypingCompletion: 0
